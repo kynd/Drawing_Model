@@ -5,7 +5,7 @@
 
 class GroupTool : public Tool {
 public:
-    GroupTool(shared_ptr<ofFbo> _canvas, int _priority);
+    GroupTool(shared_ptr<ofFbo> _canvas, float _priority);
     virtual void setupMain();
     virtual void activateMain();
     virtual void updateMain();

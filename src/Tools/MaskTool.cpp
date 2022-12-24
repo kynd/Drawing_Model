@@ -4,7 +4,7 @@ bool MaskTool::isInitialized = false;
 ofShader MaskTool::maskShader;
 ofFbo MaskTool::canvasCopy;
 
-MaskTool::MaskTool(shared_ptr<ofFbo> _canvas, int _priority) : Tool(_canvas, _priority) {
+MaskTool::MaskTool(shared_ptr<ofFbo> _canvas, float _priority) : Tool(_canvas, _priority) {
     if (!isInitialized && !animationDebugFlag) { initialize(); }
     
     localCanvas = shared_ptr<ofFbo>(new ofFbo());
@@ -39,7 +39,7 @@ void MaskTool::allocateMask() {
     if (mask->getWidth() > 0) { return; };
     mask->allocate(BUFF_WIDTH, BUFF_HEIGHT, fboDepth, samplingDepth);
     mask->begin();
-    ofClear(0, 0, 0, 255);
+    ofClear(255);
     mask->end();
 }
 

@@ -2,6 +2,8 @@
 
 #include "const.h"
 #include "ofMain.h"
+#include "Interpolator.hpp"
+
 
 
 class PolyLineUtil {
@@ -20,4 +22,6 @@ public:
     static ofPath polylineToPath(ofPolyline line);
     
     static ofPolyline createTaperNtoN(float n0, float n1);
+    
+    static ofPolyline interpolatePath(ofPolyline line0, ofPolyline line1, float t, bool angleMap = false);
 };

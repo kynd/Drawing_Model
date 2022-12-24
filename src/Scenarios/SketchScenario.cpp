@@ -221,7 +221,7 @@ shared_ptr<Tool> SketchScenario::randomPathTool(shared_ptr<ofFbo> _canvas, ofPol
     ofVec2f dir = ofVec2f(ofRandom(-1, 1), ofRandom(-1, 1));
     shared_ptr<ShaderFill> fill;
     
-    float rnd = ofRandom(7.0);
+    float rnd = ofRandom(6.0);
     if (rnd < 1.0) {
         fill = shared_ptr<ShaderFill>(new NoiseGradientShaderFill(colorA, colorB, dir, ofRandom(1.0), ofRandom(1.0)));
     } else if (rnd < 2.0) {
@@ -233,13 +233,15 @@ shared_ptr<Tool> SketchScenario::randomPathTool(shared_ptr<ofFbo> _canvas, ofPol
     } else if (rnd < 4.0) {
         fill = shared_ptr<ShaderFill>(new PaintTextureShaderFill(colorA, colorB, dir));
     } else if (rnd < 5.0) {
-        fill = shared_ptr<ShaderFill>(new GradientStripeShaderFill(colorA, colorB, dir));
+        fill = shared_ptr<ShaderFill>(new GradientStripeShaderFill(colorA, colorB, dir * 40));
     } else if (rnd < 6.0) {
         fill = shared_ptr<ShaderFill>(new DotsShaderFill(colorA, colorB, dir));
-    } else {
+    } else if (rnd < 7.0) {
         fill = shared_ptr<ShaderFill>(new WaterBleedShaderFill(colorA, colorB, dir));
+    } else {
+        fill = shared_ptr<ShaderFill>(new MetalicGradientShaderFill(colorA, colorB, dir, ofRandom(1.0), ofRandom(1.0)));
     }
-    
+        
     auto tool = shared_ptr<Tool>(new ShaderFillTool(_canvas, priority, fill, polyline));
     return tool;
 }
@@ -315,7 +317,12 @@ shared_ptr<Tool> SketchScenario::randomStrokeTool(shared_ptr<ofFbo> _canvas, ofP
 }
 
 void SketchScenario::update() {
+    if (conductor.getIsDone()) {
+        vs.save(*canvas);
+        next();
+    }
     conductor.update();
+    cnt ++;
 };
 
 void SketchScenario::draw() {
@@ -367,91 +374,6 @@ ofPolyline SketchScenario::polyBlob() {
     return polyline;
 }
 
-vector<ofRectangle> SketchScenario::createRandomGrid(int nh, int nv) {
-    float xSpan = float(BUFF_WIDTH) / nh;
-    float ySpan = float(BUFF_HEIGHT) / nv;
-    vector<vector<int> > map;
-    vector<ofRectangle> rects;
-    for (int i = 0; i < nh; i ++) {
-        vector<int> column;
-        for (int j = 0; j < nv; j ++) {
-            column.push_back(0);
-        }
-        map.push_back(column);
-    }
-    for (int i = 0; i < nh * nv; i ++) {
-        int x = ofRandom(nh);
-        int y = ofRandom(nv);
-        int w = ofRandom(nh - x) + 1;
-        int h = ofRandom(nv - y) + 1;
-        bool flag = false;
-        for (int i = x; i < x + w; i ++) {
-            for (int j = y; j < y + h; j ++) {
-                if (map[i][j] == 1) {flag = true;}
-            }
-        }
-        if (!flag) {
-            rects.push_back(ofRectangle(x * xSpan, y * ySpan, w * xSpan, h * ySpan));
-            for (int i = x; i < x + w; i ++) {
-                for (int j = y; j < y + h; j ++) {
-                    map[i][j] = 1;
-                }
-            }
-        }
-    }
-    
-    for (int i = 0; i < nh; i ++) {
-        for (int j = 0; j < nv; j ++) {
-            if (map[i][j] != 1) {
-                rects.push_back(ofRectangle(i * xSpan, j * ySpan, xSpan, ySpan));
-            }
-        }
-    }
-    return rects;
-}
-
-vector<ofRectangle> SketchScenario::createRandomSquareGrid(int n) {
-    float xSpan = float(BUFF_WIDTH) / n;
-    float ySpan = float(BUFF_HEIGHT) / n;
-    vector<vector<int> > map;
-    vector<ofRectangle> rects;
-    for (int i = 0; i < n; i ++) {
-        vector<int> column;
-        for (int j = 0; j < n; j ++) {
-            column.push_back(0);
-        }
-        map.push_back(column);
-    }
-    for (int i = 0; i < n * n; i ++) {
-        int x = ofRandom(n);
-        int y = x;
-        int w = ofRandom(n - x) + 1;
-        int h = w;
-        bool flag = false;
-        for (int i = x; i < x + w; i ++) {
-            for (int j = y; j < y + h; j ++) {
-                if (map[i][j] == 1) {flag = true;}
-            }
-        }
-        if (!flag) {
-            rects.push_back(ofRectangle(x * xSpan, y * ySpan, w * xSpan, h * ySpan));
-            for (int i = x; i < x + w; i ++) {
-                for (int j = y; j < y + h; j ++) {
-                    map[i][j] = 1;
-                }
-            }
-        }
-    }
-    
-    for (int i = 0; i < n; i ++) {
-        for (int j = 0; j < n; j ++) {
-            if (map[i][j] != 1) {
-                rects.push_back(ofRectangle(i * xSpan, j * ySpan, xSpan, ySpan));
-            }
-        }
-    }
-    return rects;
-}
 
 
 void SketchScenario::imageTest() {
@@ -477,7 +399,7 @@ void SketchScenario::imageTest() {
 
 
 void SketchScenario::randomGridTest() {
-    vector<ofRectangle> rects = createRandomGrid(8, 8);
+    vector<ofRectangle> rects = Illustrator::createRandomGrid(8, 8);
     for (int i = 0; i < rects.size(); i ++) {
         ofFloatColor colorA = colorSampler.getRandomColor();
         ofFloatColor colorB = colorSampler.getRandomColor();
@@ -492,7 +414,7 @@ void SketchScenario::randomGridTest() {
 }
 
 void SketchScenario::randomGridTest2() {
-    vector<ofRectangle> rects = createRandomGrid(4, 4);
+    vector<ofRectangle> rects = Illustrator::createRandomGrid(4, 4);
     for (int i = 0; i < rects.size(); i ++) {
         ofFloatColor colorA = colorSampler.getRandomColor();
         ofFloatColor colorB = colorSampler.getRandomColor();
@@ -511,7 +433,7 @@ void SketchScenario::randomGridTest2() {
 
 void SketchScenario::paintTest() {
     
-    vector<ofRectangle> rects = createRandomGrid(8, 8);
+    vector<ofRectangle> rects = Illustrator::createRandomGrid(8, 8);
     for (int i = 0; i < rects.size(); i ++) {
         ofFloatColor colorA = colorSampler.getRandomColor();
         ofFloatColor colorB = colorSampler.getRandomColor();
@@ -525,7 +447,7 @@ void SketchScenario::paintTest() {
 
 
 void SketchScenario::squiggleTest() {
-    vector<ofRectangle> rects = createRandomGrid(5, 5);
+    vector<ofRectangle> rects = Illustrator::createRandomGrid(5, 5);
     for (int i = 0; i < rects.size(); i ++) {
         vector<ofPolyline> polylines = Illustrator::createSquigglePath(rects[i]);
         auto strokeTool = randomStrokeTool(canvas, polylines[0], 0, 10, 40);

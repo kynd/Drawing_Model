@@ -48,11 +48,13 @@ void main() {
     vec4 gradCol = mix(colorA, colorB, smoothstep(0.1, 0.9, t + srand(rCoord) * 0.3));
 
     // Water Color Mix
-    vec4 mult = gradCol * prevBleedSamp;
-    gradCol = mix(gradCol, mult, 1.0);
+    vec4 mixed = mix(max(gradCol, prevBleedSamp), gradCol * prevBleedSamp, 0.75);
+    //mixed = mix(gradCol, mixed, 0.5);
+
+    //gradCol = mix(gradCol, mixed, 1.0);
     float mixLev = max(0.0, min(offBaseSamp.a, 0.5 - offBlurSamp.a * 0.3));
     mixLev = clamp(mixLev - noiseSamp.b * 0.1, 0.0, 1.0);
-    vec4 mixColor = mix(prevBleedSamp, gradCol, mixLev * 0.5);
+    vec4 mixColor = mix(prevBleedSamp, mixed, mixLev * 0.5);
 
     vec4 outCol = mix(prevSamp, mixColor, offBaseSamp.a);
     FragColor = outCol;

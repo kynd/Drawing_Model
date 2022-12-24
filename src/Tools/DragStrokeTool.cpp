@@ -7,7 +7,7 @@ ofShader DragStrokeTool::noiseShader;
 ofFbo DragStrokeTool::dummy;
 ofFbo DragStrokeTool::noise;
 
-DragStrokeTool::DragStrokeTool(shared_ptr<ofFbo> _canvas, int _priority,
+DragStrokeTool::DragStrokeTool(shared_ptr<ofFbo> _canvas, float _priority,
                                ofPolyline _lineA,
                                ofPolyline _lineB,
                                ofFloatColor _cbl,

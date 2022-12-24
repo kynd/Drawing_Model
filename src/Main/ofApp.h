@@ -1,13 +1,15 @@
 #pragma once
 
 #include "ofMain.h"
+
+#include "Runnable.hpp"
 #include "Scenario.hpp"
 #include "SketchScenario.hpp"
 #include "SketchScenario02.hpp"
 #include "AnimationScenario.hpp"
 #include "StepScenario.hpp"
 #include "VideoSaver.hpp"
-#include "Illustrator.hpp"
+#include "TestActor.hpp"
 
 class ofApp : public ofBaseApp{
 
@@ -27,8 +29,11 @@ class ofApp : public ofBaseApp{
 		void windowResized(int w, int h);
 		void dragEvent(ofDragInfo dragInfo);
 		void gotMessage(ofMessage msg);
-    //AnimationScenario scenario;
-    SketchScenario02 scenario;
-    //StepScenario scenario;
+    
+    //AnimationScenario runner;
+    SketchScenario02 runner;
+    //StepScenario runner;
+    //TestActor runner;
+    
     VideoSaver vs;
 };

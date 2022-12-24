@@ -1,10 +1,20 @@
 #include "Conductor.hpp"
 
+int Conductor::idCnt = 0;
+
 Conductor::Conductor() {
+    id = idCnt;
+    idCnt ++;
+    
 };
 
 void Conductor::addTool(shared_ptr<Tool> tool) {
     tools.push_back(tool);
+}
+
+
+shared_ptr<Tool> Conductor::getLastTool() {
+    return tools[tools.size() - 1];
 }
 
 void Conductor::runToolImmediately(shared_ptr<Tool> tool, int safetyCount) {
@@ -21,14 +31,14 @@ void Conductor::runToolImmediately(shared_ptr<Tool> tool, int safetyCount) {
 }
 
 void Conductor::activate() {
-    int maxPriority = -9999999;
+    float maxPriority = -9999999;
     //cout << &endl;
     // Get the lowest priority among active tools
     for (int i = 0; i < tools.size(); i ++) {
         maxPriority = max(maxPriority, tools[i]->getPriority());
     }
     
-    //cout << "maxPriority " << maxPriority  << "(" << ofGetFrameNum() << ")" << &endl;
+    
     // Loop and activate
     int doneCount = 0;
     for (int i = 0; i < tools.size(); i ++) {
@@ -84,7 +94,6 @@ void Conductor::update() {
             }
         }
     }
-    
     if (tools.size() > 0 && (activeCnt == 0 || deleted)) {
         activate();
     }

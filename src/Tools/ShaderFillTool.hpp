@@ -5,9 +5,9 @@
 
 class ShaderFillTool : public Tool {
 public:
-    ShaderFillTool(shared_ptr<ofFbo> _canvas, int _priority, shared_ptr<ShaderFill> _fill, ofPolyline _shape);
+    ShaderFillTool(shared_ptr<ofFbo> _canvas, float _priority, shared_ptr<ShaderFill> _fill, ofPolyline _shape);
     
-    ShaderFillTool(shared_ptr<ofFbo> _canvas, int _priority, shared_ptr<ShaderFill> _fill, ofFbo fbo, ofVec2f pos);
+    ShaderFillTool(shared_ptr<ofFbo> _canvas, float _priority, shared_ptr<ShaderFill> _fill, ofFbo fbo, ofVec2f pos);
     virtual void setupMain();
     virtual void activateMain();
     virtual void updateMain();

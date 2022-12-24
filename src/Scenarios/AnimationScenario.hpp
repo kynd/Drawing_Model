@@ -9,7 +9,7 @@
 #include "SquareLoopAnimator.hpp"
 #include "BlobDanceAnimator.hpp"
 #include "BrushWaveAnimator.hpp"
-#include "VideoSaver.hpp"
+#include "TestAnimator.hpp"
 
 
 class AnimationScenario : public Scenario {
@@ -18,10 +18,9 @@ public:
     virtual void draw();
     void clearBackground();
     shared_ptr<ofFbo> canvas;
-    Conductor conductor;
     
-    SquareLoopAnimator animater;
+    TestAnimator animater;
     ofFloatColor backgroungColor;
-    VideoSaver vs;
+    int nImage = 0;
 };
 

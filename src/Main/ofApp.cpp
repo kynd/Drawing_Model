@@ -7,18 +7,17 @@ void ofApp::setup(){
     } else {
         ofSetVerticalSync(false);
     }
-    ofSetFrameRate(60);
     ofSetCircleResolution(256);
 }
 
 //--------------------------------------------------------------
 void ofApp::update(){
-    scenario.update();
+    runner.update();
 }
 
 //--------------------------------------------------------------
 void ofApp::draw(){
-    scenario.draw();
+    runner.draw();
     
     if (debugFPSFlag) {
         ofPushStyle();
@@ -26,15 +25,17 @@ void ofApp::draw(){
         ofDrawBitmapString(ofToString(ofGetFrameRate()), 40, 40);
         ofPopStyle();
     }
+    
+    //vs.save();
 }
 
 //--------------------------------------------------------------
 void ofApp::keyPressed(int key){
     if (key == 's') {
-        vs.saveTS();
+        runner.save();
     }
     if (key == 'n') {
-        scenario.next();
+        runner.next();
     }
 }
 

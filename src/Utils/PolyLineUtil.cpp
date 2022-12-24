@@ -87,7 +87,7 @@ ofPolyline PolyLineUtil::noiseWarp(ofPolyline line, int octave, float scaleMult,
     
     ofPolyline polyline;
     
-    int res = line.getLengthAtIndex(line.getIndexAtPercent(1)) / 4;
+    int res = line.getLengthAtIndex(line.getIndexAtPercent(0.999)) / 4;
     for (int i = 0; i < res; i ++) {
         ofVec3f v = line.getPointAtPercent(float(i)/ (res-1));
         ofVec2f p = v;
@@ -276,5 +276,57 @@ ofPolyline PolyLineUtil::createTaperNtoN(float n0, float n1) {
     ofPolyline line;
     line.addVertex(ofVec3f(n0, 0.0, 0.0));
     line.addVertex(ofVec3f(n1, 1.0, 0.0));
+    return line;
+}
+
+
+
+
+ofPolyline PolyLineUtil::interpolatePath(ofPolyline line0, ofPolyline line1, float t, bool angleMap) {
+    
+    ofPolyline lines[2];
+    lines[0] = line0;
+    lines[1] = line1;
+    float startPct0 = 0, startPct1 = 0;
+    
+    int maxVert = max(lines[0].getVertices().size(), lines[1].getVertices().size());
+    
+    if (angleMap) {
+        int startIdx[2];
+        for (int i = 0; i < 2; i ++) {
+            auto vertices = lines[i].getVertices();
+            ofVec2f c = lines[i].getCentroid2D();
+            
+            int idx = 0;
+            float minAng = PI;
+            for (int j = 0; j < vertices.size(); j ++) {
+                float ang = atan2(vertices[j].x - c.x, vertices[j].y - c.y);
+                if (abs(ang) < minAng) {
+                    minAng = abs(ang);
+                    idx = j;
+                }
+            }
+            startIdx[i] = idx;
+        }
+        
+        float len0 = lines[0].getLengthAtIndex(startIdx[0]);
+        float len1 = lines[1].getLengthAtIndex(startIdx[1]);
+        startPct0 = len0 / lines[0].getLengthAtIndex(lines[0].getVertices().size() - 1);
+        startPct1 = len1 / lines[1].getLengthAtIndex(lines[1].getVertices().size() - 1);
+    }
+    
+    ofPolyline line = ofPolyline();
+    int n = max(192, maxVert);
+    for (int i = 0; i < n; i ++) {
+        int idx = i % n;
+        float pct = float(idx) / n;
+        float pct0 = fmod(startPct0 +  pct, 1.f);
+        float pct1 = fmod(startPct1 +  pct, 1.f);
+        ofVec3f p0 = lines[0].getPointAtPercent(pct0);
+        ofVec3f p1 = lines[1].getPointAtPercent(pct1);
+        line.addVertex(p0.getInterpolated(p1, t));
+    }
+    line.close();
+    
     return line;
 }

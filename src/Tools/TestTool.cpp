@@ -1,6 +1,6 @@
 #include "TestTool.hpp"
 
-TestTool::TestTool(shared_ptr<ofFbo> _canvas, int _priority, ofVec3f  _p0, ofVec3f _p1, ofColor _color) : Tool(_canvas, _priority) {
+TestTool::TestTool(shared_ptr<ofFbo> _canvas, float _priority, ofVec3f  _p0, ofVec3f _p1, ofColor _color) : Tool(_canvas, _priority) {
     
     p0 = _p0;
     p1 = _p1;

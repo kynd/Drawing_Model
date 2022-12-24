@@ -199,6 +199,87 @@ vector<ofPolyline> Illustrator::createWatermelonPath(ofRectangle rect) {
     return polylines;
 }
 
+
+vector<ofPolyline> Illustrator::createTreePath(ofRectangle rect) {
+    vector<ofPolyline> polylines;
+    float cx = rect.x + rect.width / 2;
+    float top = rect.y;
+    float bottom = rect.y + rect.height;
+    
+    ofPolyline centerLine;
+    for (int i = 0; i < 10; i ++) {
+        ofVec3f p = ofVec3f(cx, top, 0).getInterpolated(ofVec3f(cx, bottom, 0.0), float(i) / 9);
+        centerLine.addVertex(p);
+    }
+    centerLine = PolyLineUtil::noiseWarp(centerLine, 2, 8, 0.25, ofVec2f(1.f / BUFF_WIDTH), ofVec2f(96.0));
+    ofPolyline trunk = PolyLineUtil::toRoundedStroke(centerLine, 16);
+    polylines.push_back(trunk);
+    
+    float w = 32;
+    int n = rect.height / w;
+    for (int i = 0; i < n; i ++) {
+        float t = float(i) / (n - 1);
+        float t1 = 0.25 + t * ofRandom(0.7, 0.8);
+        float xLen = rect.width * t * 0.5 * ofRandom(0.5, 1.0);
+        ofVec3f cp = centerLine.getPointAtPercent(t);
+        ofVec3f lp(cp.x + xLen, ofLerp(top, bottom, t1), 0.0);
+        ofVec3f rp(cp.x - xLen, ofLerp(top, bottom, t1), 0.0);
+        ofPolyline left, right;
+        for (int i = 0; i < 10; i ++) {
+            ofVec3f p = cp.getInterpolated(lp, float(i) / 9);
+            left.addVertex(p);
+        }
+        left = PolyLineUtil::toRoundedStroke(left, w * 0.25);
+        left = PolyLineUtil::noiseWarp(left, 2, 8, 0.25, ofVec2f(1.f / BUFF_WIDTH), ofVec2f(96.0));
+        
+        for (int i = 0; i < 10; i ++) {
+            ofVec3f p = cp.getInterpolated(rp, float(i) / 9);
+            right.addVertex(p);
+        }
+        right = PolyLineUtil::toRoundedStroke(right, w * 0.25);
+        right = PolyLineUtil::noiseWarp(right, 2, 8, 0.25, ofVec2f(1.f / BUFF_WIDTH), ofVec2f(96.0));
+        polylines.push_back(left);
+        polylines.push_back(right);
+    }
+    
+    
+    return polylines;
+}
+
+
+
+
+
+
+vector<ofPolyline> Illustrator::createWaveStarPath(ofRectangle rect) {
+    
+    vector<ofPolyline> polylines;
+    float cx = rect.x + rect.width * 0.5;
+    float cy = rect.y + rect.height * 0.5;
+    float hw = rect.width * 0.5;
+    float hh = rect.height * 0.5;
+
+    ofPolyline line;
+    int n = 64;
+    float freq = round(ofRandom(3, 12));
+    float offR = ofRandom(0.25);
+    float baseR = 1.0 - offR;
+
+    float angOffset = ofRandom(TWO_PI);
+    for (int i = 0; i <= n + 2; i ++) {
+        float ang = TWO_PI / n * (i % n) + angOffset;
+        float r = sin(ang * freq) * offR + baseR;
+        ofVec3f p(cos(ang) * r * hw + cx, sin(ang) * r * hh + cy, 0);
+        line.curveTo(p);
+    }
+    line.close();
+    line.simplify();
+    
+    polylines.push_back(line);
+    return polylines;
+}
+
+
 vector<ofPolyline> Illustrator::createStarBlobPath(ofRectangle rect) {
     vector<ofPolyline> polylines;
     float angleOffset = ofRandom(TWO_PI);
@@ -261,3 +342,113 @@ vector<ofPolyline> Illustrator::createBlobPath(ofRectangle rect) {
     return polylines;
 }
 
+
+
+vector<ofPolyline> Illustrator::createRandomQuadPath(ofRectangle rect) {
+    vector<ofPolyline> polylines;
+    ofPolyline polyline;
+    
+    ofVec3f v0(rect.x + ofRandom(rect.width * 0.5), rect.y + ofRandom(rect.height * 0.5), 0);
+    ofVec3f v1(rect.x + rect.width * 0.5 + ofRandom(rect.width * 0.5), rect.y + ofRandom(rect.height * 0.5), 0);
+    ofVec3f v2(rect.x + rect.width * 0.5 + ofRandom(rect.width * 0.5), rect.y + rect.height * 0.5 + ofRandom(rect.height * 0.5), 0);
+    ofVec3f v3(rect.x + ofRandom(rect.width * 0.5), rect.y + rect.height * 0.5 + ofRandom(rect.height * 0.5), 0);
+    polyline.addVertex(v0);
+    polyline.addVertex(v1);
+    polyline.addVertex(v2);
+    polyline.addVertex(v3);
+    polyline.close();
+    
+    polylines.push_back(polyline);
+    
+    return polylines;
+}
+
+
+
+
+
+vector<ofRectangle> Illustrator::createRandomGrid(int nh, int nv) {
+    float xSpan = float(BUFF_WIDTH) / nh;
+    float ySpan = float(BUFF_HEIGHT) / nv;
+    vector<vector<int> > map;
+    vector<ofRectangle> rects;
+    for (int i = 0; i < nh; i ++) {
+        vector<int> column;
+        for (int j = 0; j < nv; j ++) {
+            column.push_back(0);
+        }
+        map.push_back(column);
+    }
+    for (int i = 0; i < nh * nv; i ++) {
+        int x = ofRandom(nh);
+        int y = ofRandom(nv);
+        int w = ofRandom(nh - x) + 1;
+        int h = ofRandom(nv - y) + 1;
+        bool flag = false;
+        for (int i = x; i < x + w; i ++) {
+            for (int j = y; j < y + h; j ++) {
+                if (map[i][j] == 1) {flag = true;}
+            }
+        }
+        if (!flag) {
+            rects.push_back(ofRectangle(x * xSpan, y * ySpan, w * xSpan, h * ySpan));
+            for (int i = x; i < x + w; i ++) {
+                for (int j = y; j < y + h; j ++) {
+                    map[i][j] = 1;
+                }
+            }
+        }
+    }
+    
+    for (int i = 0; i < nh; i ++) {
+        for (int j = 0; j < nv; j ++) {
+            if (map[i][j] != 1) {
+                rects.push_back(ofRectangle(i * xSpan, j * ySpan, xSpan, ySpan));
+            }
+        }
+    }
+    return rects;
+}
+
+vector<ofRectangle> Illustrator::createRandomSquareGrid(int n) {
+    float xSpan = float(BUFF_WIDTH) / n;
+    float ySpan = float(BUFF_HEIGHT) / n;
+    vector<vector<int> > map;
+    vector<ofRectangle> rects;
+    for (int i = 0; i < n; i ++) {
+        vector<int> column;
+        for (int j = 0; j < n; j ++) {
+            column.push_back(0);
+        }
+        map.push_back(column);
+    }
+    for (int i = 0; i < n * n; i ++) {
+        int x = ofRandom(n);
+        int y = x;
+        int w = ofRandom(n - x) + 1;
+        int h = w;
+        bool flag = false;
+        for (int i = x; i < x + w; i ++) {
+            for (int j = y; j < y + h; j ++) {
+                if (map[i][j] == 1) {flag = true;}
+            }
+        }
+        if (!flag) {
+            rects.push_back(ofRectangle(x * xSpan, y * ySpan, w * xSpan, h * ySpan));
+            for (int i = x; i < x + w; i ++) {
+                for (int j = y; j < y + h; j ++) {
+                    map[i][j] = 1;
+                }
+            }
+        }
+    }
+    
+    for (int i = 0; i < n; i ++) {
+        for (int j = 0; j < n; j ++) {
+            if (map[i][j] != 1) {
+                rects.push_back(ofRectangle(i * xSpan, j * ySpan, xSpan, ySpan));
+            }
+        }
+    }
+    return rects;
+}

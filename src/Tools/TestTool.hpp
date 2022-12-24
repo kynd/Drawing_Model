@@ -7,7 +7,7 @@
 
 class TestTool : public Tool {
 public:
-    TestTool(shared_ptr<ofFbo> _canvas, int _priority, ofVec3f _p0, ofVec3f _p1, ofColor _color);
+    TestTool(shared_ptr<ofFbo> _canvas, float _priority, ofVec3f _p0, ofVec3f _p1, ofColor _color);
     virtual void updateMain();
     virtual void debugDraw();
     

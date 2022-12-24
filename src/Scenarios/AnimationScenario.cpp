@@ -30,7 +30,12 @@ void AnimationScenario::draw() {
         clearBackground();
         animater.update(conductor);
     } else if (conductor.getIsDone()) {
-        if (saveFlag) { vs.save(*canvas); }
+        if (saveFlag) { vs.save(*canvas);
+            nImage ++;
+            if (nImage > 1000) {
+                std::exit(0);
+            }
+        }
         clearBackground();
         animater.update(conductor);
     }

@@ -9,10 +9,11 @@ class Tool {
 public:
     enum States {STANDBY, ACTIVE, COMPLETE};
     
-    Tool(shared_ptr<ofFbo> _canvas, int _priority = 0);
+    Tool(shared_ptr<ofFbo> _canvas, float _priority = 0);
     
     virtual ofRectangle getBoundingBox();
-    virtual int getPriority();
+    virtual float getPriority();
+    virtual void setPriority(float p);
     virtual States getState();
     virtual void setup();
     virtual void setupMain();
@@ -28,5 +29,5 @@ protected:
     States state = STANDBY;
     shared_ptr<ofFbo> canvas;
     ofRectangle boundingBox;
-    int priority;
+    float priority;
 };

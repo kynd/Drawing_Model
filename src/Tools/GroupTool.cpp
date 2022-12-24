@@ -2,7 +2,7 @@
 
 bool GroupTool::isInitialized = false;
 
-GroupTool::GroupTool(shared_ptr<ofFbo> _canvas, int _priority) : Tool(_canvas, _priority) {
+GroupTool::GroupTool(shared_ptr<ofFbo> _canvas, float _priority) : Tool(_canvas, _priority) {
     if (!isInitialized && !animationDebugFlag) { initialize(); }
     setup();
 }

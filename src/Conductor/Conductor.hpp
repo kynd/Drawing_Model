@@ -15,8 +15,11 @@ public:
     void clear();
     void update();
     void debugDraw(bool drawAll = false);
+    shared_ptr<Tool> getLastTool();
     
     vector< shared_ptr<Tool> > tools;
+    int id = 0;
 protected:
     bool isDone = false;
+    static int idCnt;
 };

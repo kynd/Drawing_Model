@@ -21,3 +21,7 @@ void Scenario::draw() {
         conductor.debugDraw(true);
     }
 }
+
+void Scenario::save() {
+    vs.save(*canvas);
+};

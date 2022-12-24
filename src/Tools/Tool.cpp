@@ -1,6 +1,6 @@
 #include "Tool.hpp"
 
-Tool::Tool(shared_ptr<ofFbo> _canvas, int _priority) {
+Tool::Tool(shared_ptr<ofFbo> _canvas, float _priority) {
     canvas = _canvas;
     priority = _priority;
 }
@@ -10,8 +10,12 @@ ofRectangle Tool::getBoundingBox() {
 }
 
 
-int Tool::getPriority() {
+float Tool::getPriority() {
     return priority;
+}
+
+void Tool::setPriority(float p) {
+    priority = p;
 }
 
 Tool::States Tool::getState() {

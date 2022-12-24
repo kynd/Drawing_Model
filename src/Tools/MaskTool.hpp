@@ -5,7 +5,7 @@
 
 class MaskTool : public Tool {
 public:
-    MaskTool(shared_ptr<ofFbo> _canvas, int _priority);
+    MaskTool(shared_ptr<ofFbo> _canvas, float _priority);
     virtual void setupMain();
     virtual void activateMain();
     virtual void updateMain();

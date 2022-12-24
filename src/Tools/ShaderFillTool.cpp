@@ -2,7 +2,7 @@
 
 bool ShaderFillTool::isInitialized = false;
 
-ShaderFillTool::ShaderFillTool(shared_ptr<ofFbo> _canvas, int _priority, shared_ptr<ShaderFill> _fill, ofPolyline _shape) : Tool(_canvas, _priority) {
+ShaderFillTool::ShaderFillTool(shared_ptr<ofFbo> _canvas, float _priority, shared_ptr<ShaderFill> _fill, ofPolyline _shape) : Tool(_canvas, _priority) {
     
     type = POLYLINE;
     if (!isInitialized && !animationDebugFlag) { initialize(); }
@@ -16,10 +16,16 @@ ShaderFillTool::ShaderFillTool(shared_ptr<ofFbo> _canvas, int _priority, shared_
     ofRectangle bb = shape.getBoundingBox();
     boundingBox = ofRectangle(bb.x - margin, bb.y - margin, bb.width + margin * 2, bb.height + margin * 2);
     
+    
+    boundingBox.x = round(boundingBox.x);
+    boundingBox.y = round(boundingBox.y);
+    boundingBox.width = round(boundingBox.width);
+    boundingBox.height = round(boundingBox.height);
+    
     setup();
 }
 
-ShaderFillTool::ShaderFillTool(shared_ptr<ofFbo> _canvas, int _priority, shared_ptr<ShaderFill> _fill, ofFbo fbo, ofVec2f pos) : Tool(_canvas, _priority) {
+ShaderFillTool::ShaderFillTool(shared_ptr<ofFbo> _canvas, float _priority, shared_ptr<ShaderFill> _fill, ofFbo fbo, ofVec2f pos) : Tool(_canvas, _priority) {
     type = FBO;
     if (!isInitialized && !animationDebugFlag) { initialize(); }
     
