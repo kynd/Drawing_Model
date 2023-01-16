@@ -8,8 +8,12 @@
 
 class PolyLineUtil {
 public:
+    
     static ofPolyline toFlatStroke(ofPolyline line, float width, int resolutionn = 64);
     static ofPolyline toRoundedStroke(ofPolyline line, float width, int resolution = 64);
+    
+    
+    static vector<ofPolyline> toDottedLine(ofPolyline line, float spanA, float spanB);
     
     static ofPolyline noiseWarp(ofPolyline line, int octave, float scaleMult, float decay, ofVec2f scale, ofVec2f amount, ofVec2f seed = ofVec2f(0.0));
     static ofPolyline rectangle(float x, float y, float w, float h);

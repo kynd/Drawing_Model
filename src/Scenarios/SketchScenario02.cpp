@@ -18,8 +18,7 @@ void SketchScenario02::next() {
     canvas->end();
     
     conductor.clear();
-    treeTest();
-    starTest();
+    maskTest();
 }
 
 vector<ofPolyline> SketchScenario02::randomPaths(ofRectangle rect) {
@@ -62,15 +61,13 @@ void SketchScenario02::starTest() {
             
             int priority = ofRandom(10);
             
-            auto tool2 = randomPathTool(canvas, polylines[j], priority);
+            auto tool2 = toolUtil.getRandomPathTool(canvas, polylines[j], priority);
             
             conductor.addTool(tool2);
             
             auto tool = shared_ptr<Tool>(new ShaderFillTool(canvas, priority, fill, polylines[j]));
             
             conductor.addTool(tool);
-            
-            
         }
     }
 }
@@ -78,7 +75,7 @@ void SketchScenario02::starTest() {
 void SketchScenario02::treeTest() {
     
     ofPolyline bgRect = PolyLineUtil::rectangle(0, 0, BUFF_WIDTH, BUFF_HEIGHT);
-    conductor.addTool(randomPathTool(canvas, bgRect, 20));
+    conductor.addTool(toolUtil.getRandomPathTool(canvas, bgRect, 20));
     
     vector<ofRectangle> rects;
     
@@ -104,7 +101,7 @@ void SketchScenario02::treeTest() {
             auto fill = shared_ptr<ShaderFill>(new WaterBleedShaderFill(colorA, colorB, dir));
             
             int priority = ofRandom(10);
-            auto tool2 = randomPathTool(canvas, polylines[j], priority );
+            auto tool2 = toolUtil.getRandomPathTool(canvas, polylines[j], priority );
             
             conductor.addTool(tool2);
             auto tool = shared_ptr<Tool>(new ShaderFillTool(canvas, priority , fill, polylines[j]));
@@ -116,8 +113,8 @@ void SketchScenario02::treeTest() {
 
 void SketchScenario02::pathMorphTest() {
     for (int i = 0; i < 360 * 4; i ++) {
-        testActor.update();
-        testActor.updateConductor(canvas, conductor);
+        shapeMorphActor.update();
+        shapeMorphActor.updateConductor(canvas, conductor);
         conductor.tools[conductor.tools.size()-1]->setPriority(i);
     }
 }
@@ -125,7 +122,7 @@ void SketchScenario02::pathMorphTest() {
 
 void SketchScenario02::shaderFillTest() {
     auto line = PolyLineUtil::rectangle(0, 0, BUFF_WIDTH, BUFF_HEIGHT);
-    auto tool = randomPathTool(canvas, line, 2000);
+    auto tool = toolUtil.getRandomPathTool(canvas, line, 2000);
     conductor.addTool(tool);
     
     MaskTool* mt = new MaskTool(canvas, ofRandom(10));
@@ -144,11 +141,11 @@ void SketchScenario02::shaderFillTest() {
                 
 
                 line.translate(ofVec3f(ofRandom(-24, 24), ofRandom(-24, 24), ofRandom(-24, 24)));
-                auto tool2 = randomPathTool(canvas, line, 1000);
+                auto tool2 = toolUtil.getRandomPathTool(canvas, line, 1000);
                 conductor.addTool(tool2);
                 
                 line.translate(ofVec3f(ofRandom(-24, 24), ofRandom(-24, 24), ofRandom(-24, 24)));
-                auto tool3 = randomPathTool(canvas, line, 1000);
+                auto tool3 = toolUtil.getRandomPathTool(canvas, line, 1000);
                 conductor.addTool(tool3);
             }
         }
@@ -160,11 +157,90 @@ void SketchScenario02::shaderFillTest() {
         for (int j = 0; j < polylines.size(); j ++) {
             
             ofPolyline line = PolyLineUtil::noiseWarp(polylines[j], 2, 8, 0.5, ofVec2f(1.f / BUFF_WIDTH), ofVec2f(20));
-            auto tool = randomPathTool(canvas, line, ofRandom(10));
+            auto tool = toolUtil.getRandomPathTool(canvas, line, ofRandom(10));
             mt->addTool(tool);
         }
     }
 };
+
+
+void SketchScenario02::randomBgTest() {
+    ofPolyline bgRect = PolyLineUtil::rectangle(0, 0, BUFF_WIDTH, BUFF_HEIGHT);
+    conductor.addTool(toolUtil.getRandomPathTool(canvas, bgRect, 20));
+}
+
+void SketchScenario02::dottedLineTest() {
+    
+    vector<ofRectangle> rects = Illustrator::createRandomGrid(ofRandom(1,5), ofRandom(1,5));
+    
+    
+    for (int i = 0; i < rects.size(); i ++) {
+        vector<ofPolyline> polylines;
+        float rnd = ofRandom(3.0);
+        if (rnd < 1.0) {
+            polylines = Illustrator::createBlobPath(rects[i]);
+        } else if (rnd < 2.0) {
+            polylines = Illustrator::createOvalPath(rects[i]);
+        } else {
+            polylines = Illustrator::createRandomQuadPath(rects[i]);
+        }
+        
+        if (ofRandom(1.0) < 0.25) {
+            polylines[0] = PolyLineUtil::noiseWarp(polylines[0], 2, 8, 0.5, ofVec2f(1.f / BUFF_WIDTH), ofVec2f(200));
+        }
+        
+        {
+            auto tool = toolUtil.getRandomPathTool(canvas, polylines[0], 0);
+            tool->setPriority(ofRandom(5, 10));
+            conductor.addTool(tool);
+        }
+        
+        {
+            float baseSpan = ofRandom(24, 48);
+            polylines = PolyLineUtil::toDottedLine(polylines[0], baseSpan, ofRandom(baseSpan));
+            ofFloatColor color = colorSampler.getRandomColor();
+            float width = ofRandom(1, 12);
+            auto style = shared_ptr<StrokeStyle>(new RoughEdgeStrokeStyle(color));
+            for (int i = 0; i < polylines.size(); i ++) {
+                auto tool = shared_ptr<Tool>(new RoundStrokeTool(canvas, 1, style, polylines[i], width));
+                conductor.addTool(tool);
+            }
+        }
+        
+    }
+    
+    /*
+    for (int i = 0; i < rects.size(); i ++) {
+        vector<ofPolyline> polylines;
+        float rnd = ofRandom(3.0);
+        if (rnd < 1.0) {
+            polylines = Illustrator::createSquigglePath(rects[i]);
+        } else if (rnd < 2.0) {
+            polylines = Illustrator::createFastDenseSquigglePath(rects[i]);
+        } else {
+            polylines = Illustrator::createGridPointPath(rects[i], 4, 4, ofRandom(4, 12));
+        }
+        
+        if (ofRandom(1.0) < 0.25) {
+            polylines[0] = PolyLineUtil::noiseWarp(polylines[0], 2, 8, 0.5, ofVec2f(1.f / BUFF_WIDTH), ofVec2f(200));
+        }
+        
+        float baseSpan = ofRandom(24, 48);
+        polylines = PolyLineUtil::toDottedLine(polylines[0], baseSpan, ofRandom(baseSpan));
+        ofFloatColor color = colorSampler.getRandomColor();
+        float width = ofRandom(1, 12);
+        auto style = shared_ptr<StrokeStyle>(new RoughEdgeStrokeStyle(color));
+        for (int i = 0; i < polylines.size(); i ++) {
+            auto tool = shared_ptr<Tool>(new RoundStrokeTool(canvas, 0, style, polylines[i], width));
+            conductor.addTool(tool);
+        }
+    }
+    */
+    
+    boxActor.update();
+    boxActor.updateConductor(canvas, conductor);
+}
+
 
 void SketchScenario02::lineTest() {
     vector<ofRectangle> rects = Illustrator::createRandomGrid(ofRandom(1,5), ofRandom(1,5));
@@ -182,7 +258,7 @@ void SketchScenario02::lineTest() {
         if (ofRandom(1.0) < 0.25) {
             polylines[0] = PolyLineUtil::noiseWarp(polylines[0], 2, 8, 0.5, ofVec2f(1.f / BUFF_WIDTH), ofVec2f(200));
         }
-        auto strokeTool = randomStrokeTool(canvas, polylines[0], 0, 1, 40);
+        auto strokeTool = toolUtil.getRandomStrokeTool(canvas, polylines[0], 0, 1, 40);
         conductor.addTool(strokeTool);
     }
 }
@@ -219,18 +295,18 @@ void SketchScenario02::maskTest() {
         
         for (int j = 0; j < 2; j ++) {
             vector<ofPolyline> polylines = Illustrator::createBlobPath(rects[i]);
-            auto tool = randomPathTool(mt->getLocalCanvas(), polylines[0]);
+            auto tool = toolUtil.getRandomPathTool(mt->getLocalCanvas(), polylines[0], 0);
             if (ofRandom(1.0) < 0.5) {
                 mt->addTool(tool);
             }
-            auto strokeTool = randomStrokeTool(mt->getLocalCanvas(), polylines[0], 0, 10, 40);
+            auto strokeTool = toolUtil.getRandomStrokeTool(mt->getLocalCanvas(), polylines[0], 0, 10, 40);
             if (ofRandom(1.0) < 0.5) {
                 mt->addTool(strokeTool);
             }
         }
         {
             vector<ofPolyline> polylines = Illustrator::createSquigglePath(rects[i]);
-            auto strokeTool = randomStrokeTool(mt->getLocalCanvas(), polylines[0], 0, 10, 40);
+            auto strokeTool = toolUtil.getRandomStrokeTool(mt->getLocalCanvas(), polylines[0], 0, 10, 40);
             mt->addTool(strokeTool);
         }
         conductor.addTool(maskTool);
@@ -241,7 +317,7 @@ void SketchScenario02::maskTest() {
 void SketchScenario02::groupTest() {
     
     ofPolyline bgRect = PolyLineUtil::rectangle(0, 0, BUFF_WIDTH, BUFF_HEIGHT);
-    conductor.addTool(randomPathTool(canvas, bgRect, 20));
+    conductor.addTool(toolUtil.getRandomPathTool(canvas, bgRect, 20));
     
     int n = ofRandom(16, 24);
     for (int i = 0; i < n; i ++) {

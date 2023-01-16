@@ -7,7 +7,10 @@ void ofApp::setup(){
     } else {
         ofSetVerticalSync(false);
     }
+    //ofSetFrameRate(60);
     ofSetCircleResolution(256);
+    
+    //runner.setPosition(ofVec2f(BUFF_WIDTH / 4, BUFF_HEIGHT / 4), ofVec2f(0.5));
 }
 
 //--------------------------------------------------------------
@@ -25,6 +28,7 @@ void ofApp::draw(){
         ofDrawBitmapString(ofToString(ofGetFrameRate()), 40, 40);
         ofPopStyle();
     }
+    
     
     //vs.save();
 }

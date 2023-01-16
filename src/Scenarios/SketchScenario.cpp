@@ -17,6 +17,9 @@ void SketchScenario::next() {
     ofClear(backgroundColor);
     canvas->end();
     conductor.clear();
+    
+    blobPathTest();
+    gridFBOTest();
 }
 
 void SketchScenario::dragStrokeTest() {
@@ -57,13 +60,12 @@ void SketchScenario::dragStrokeTest() {
                                backgroundColor));
         conductor.addTool(tool);
     }
-    
 }
 
 
 void SketchScenario::grid2() {
     ofPolyline bgRect = PolyLineUtil::rectangle(0, 0, BUFF_WIDTH, BUFF_HEIGHT);
-    conductor.addTool(randomPathTool(canvas, bgRect, 20));
+    conductor.addTool(toolUtil.getRandomPathTool(canvas, bgRect, 20));
     
     int n = 6;
     float xSpan = float(BUFF_WIDTH) / n;
@@ -113,46 +115,17 @@ void SketchScenario::grid2() {
         }
         
         for (int i = 0; i < polylines.size(); i ++) {
-            shared_ptr<Tool> tool = randomPathTool(canvas, polylines[i], ofRandom(1, 10));
+            shared_ptr<Tool> tool = toolUtil.getRandomPathTool(canvas, polylines[i], ofRandom(1, 10));
             conductor.addTool(tool);
         }
     }
 }
 
 
-void SketchScenario::grid() {
-    ofPolyline bgRect = PolyLineUtil::rectangle(0, 0, BUFF_WIDTH, BUFF_HEIGHT);
-    conductor.addTool(randomPathTool(canvas, bgRect, 20));
-    
-    int n = 4;
-    for (int nx = 0; nx < n; nx ++) {
-        for (int ny = 0; ny < n; ny ++) {
-            int span = ofRandom(1, 4);
-            span = min(span, n - ny);
-            float x = float(BUFF_WIDTH) / n * nx;
-            float y = float(BUFF_HEIGHT) / n * ny;
-            float w = float(BUFF_WIDTH) / n;
-            float h = float(BUFF_HEIGHT) / n * span;
-            
-            ofPolyline bgRect = PolyLineUtil::rectangle(x, y, w, h);
-            //conductor.addTool(randomPathTool(bgRect, 20));
-            
-            vector<ofPolyline> polylines = Illustrator::createBlobPath(ofRectangle(x, y, w, h));
-            
-            for (int i = 0; i < polylines.size(); i ++) {
-                shared_ptr<Tool> tool = randomPathTool(canvas, polylines[i], ofRandom(1, 10));
-                conductor.addTool(tool);
-            }
-            
-            ny += (span - 1);
-        }
-    }
-}
-
 void SketchScenario::watermelons() {
     
     ofPolyline bgRect = PolyLineUtil::rectangle(0, 0, BUFF_WIDTH, BUFF_HEIGHT);
-    conductor.addTool(randomPathTool(canvas, bgRect, 20));
+    conductor.addTool(toolUtil.getRandomPathTool(canvas, bgRect, 20));
     
     int n = 5;
     for (int nx = 0; nx < n; nx ++) {
@@ -170,7 +143,7 @@ void SketchScenario::watermelons() {
             vector<ofPolyline> polylines = Illustrator::createWatermelonPath(ofRectangle(x, y, w, h));
             
             for (int i = 0; i < polylines.size(); i ++) {
-                shared_ptr<Tool> tool = randomPathTool(canvas, polylines[i], ofRandom(1, 10));
+                shared_ptr<Tool> tool = toolUtil.getRandomPathTool(canvas, polylines[i], ofRandom(1, 10));
                 conductor.addTool(tool);
             }
             
@@ -184,10 +157,10 @@ void SketchScenario::blobPathTest() {
     for (int i = 0; i < n; i ++) {
         ofPolyline polyline = polyBlob();
         if (ofRandom(1.0) < 0.5) {
-            conductor.addTool(randomPathTool(canvas, polyline, ofRandom(0, 10)));
+            conductor.addTool(toolUtil.getRandomPathTool(canvas, polyline, ofRandom(0, 10)));
         }
         if (ofRandom(1.0) < 0.5) {
-            conductor.addTool(randomStrokeTool(canvas, polyline, ofRandom(0, 10)));
+            conductor.addTool(toolUtil.getRandomStrokeTool(canvas, polyline, ofRandom(0, 10)));
         }
     }
 }
@@ -207,113 +180,11 @@ void SketchScenario::gridFBOTest() {
                 fbo.end();
                 
                 if (ofRandom(1.0) < 0.5) {
-                    conductor.addTool(randomFboTool(canvas, fbo, ofVec2f(w * i, h * j), ofRandom(0, 10)));
+                    conductor.addTool(toolUtil.getRandomFboTool(canvas, fbo, ofVec2f(w * i, h * j), ofRandom(0, 10)));
                 }
             }
         }
     }
-}
-
-
-shared_ptr<Tool> SketchScenario::randomPathTool(shared_ptr<ofFbo> _canvas, ofPolyline polyline, int priority) {
-    ofFloatColor colorA = colorSampler.getRandomColor();
-    ofFloatColor colorB = colorSampler.getRandomColor();
-    ofVec2f dir = ofVec2f(ofRandom(-1, 1), ofRandom(-1, 1));
-    shared_ptr<ShaderFill> fill;
-    
-    float rnd = ofRandom(6.0);
-    if (rnd < 1.0) {
-        fill = shared_ptr<ShaderFill>(new NoiseGradientShaderFill(colorA, colorB, dir, ofRandom(1.0), ofRandom(1.0)));
-    } else if (rnd < 2.0) {
-        fill = shared_ptr<ShaderFill>(new PaintPatchShaderFill(colorA, colorB, dir));
-    } else if (rnd < 3.0) {
-        auto _fill = new NoiseGradientShaderFill(colorA, colorB, dir, 0.5, 0.5);
-        _fill->setRadial(ofVec2f(ofRandom(1.0), ofRandom(1.0)), ofRandom(1.0));
-        fill = shared_ptr<ShaderFill>(_fill);
-    } else if (rnd < 4.0) {
-        fill = shared_ptr<ShaderFill>(new PaintTextureShaderFill(colorA, colorB, dir));
-    } else if (rnd < 5.0) {
-        fill = shared_ptr<ShaderFill>(new GradientStripeShaderFill(colorA, colorB, dir * 40));
-    } else if (rnd < 6.0) {
-        fill = shared_ptr<ShaderFill>(new DotsShaderFill(colorA, colorB, dir));
-    } else if (rnd < 7.0) {
-        fill = shared_ptr<ShaderFill>(new WaterBleedShaderFill(colorA, colorB, dir));
-    } else {
-        fill = shared_ptr<ShaderFill>(new MetalicGradientShaderFill(colorA, colorB, dir, ofRandom(1.0), ofRandom(1.0)));
-    }
-        
-    auto tool = shared_ptr<Tool>(new ShaderFillTool(_canvas, priority, fill, polyline));
-    return tool;
-}
-
-shared_ptr<Tool> SketchScenario::randomFboTool(shared_ptr<ofFbo> _canvas, ofFbo fbo, ofVec2f pos, int priority) {
-    shared_ptr<Tool> tool;
-    ofFloatColor colorA = colorSampler.getRandomColor();
-    ofFloatColor colorB = colorSampler.getRandomColor();
-    ofVec2f dir = ofVec2f(ofRandom(-1, 1), ofRandom(-1, 1));
-    
-    float rnd = ofRandom(7.0);
-    if (rnd < 1.0) {
-        auto fill = shared_ptr<ShaderFill>(new NoiseGradientShaderFill(colorA, colorB, dir, ofRandom(1.0), ofRandom(1.0)));
-        tool = shared_ptr<Tool>(new ShaderFillTool(_canvas, priority, fill, fbo, pos));
-    } else if (rnd < 2.0) {
-        auto fill = shared_ptr<ShaderFill>(new PaintPatchShaderFill(colorA, colorB, dir));
-        tool = shared_ptr<Tool>(new ShaderFillTool(_canvas, priority, fill, fbo, pos));
-    } else if (rnd < 3.0) {
-        auto _fill = new NoiseGradientShaderFill(colorA, colorB, dir, 0.5, 0.5);
-        _fill->setRadial(ofVec2f(ofRandom(1.0), ofRandom(1.0)), ofRandom(1.0));
-        shared_ptr<ShaderFill> fill = shared_ptr<ShaderFill>(_fill);
-        
-        tool = shared_ptr<Tool>(new ShaderFillTool(_canvas, priority, fill, fbo, pos));
-    } else if (rnd < 4.0) {
-        auto fill = shared_ptr<ShaderFill>(new PaintTextureShaderFill(colorA, colorB, dir));
-        tool = shared_ptr<Tool>(new ShaderFillTool(canvas, priority, fill, fbo, pos));
-    } else if (rnd < 5.0) {
-        auto fill = shared_ptr<ShaderFill>(new GradientStripeShaderFill(colorA, colorB, dir));
-        tool = shared_ptr<Tool>(new ShaderFillTool(canvas, priority, fill, fbo, pos));
-    } else if (rnd < 6.0) {
-        auto fill = shared_ptr<ShaderFill>(new DotsShaderFill(colorA, colorB, dir));
-        tool = shared_ptr<Tool>(new ShaderFillTool(canvas, ofRandom(10), fill, fbo, pos));
-    } else {
-        auto fill = shared_ptr<ShaderFill>(new WaterBleedShaderFill(colorA, colorB, dir));
-        tool = shared_ptr<Tool>(new ShaderFillTool(_canvas, priority, fill, fbo, pos));
-    }
-    return tool;
-}
-
-
-
-
-
-shared_ptr<Tool> SketchScenario::randomStrokeTool(shared_ptr<ofFbo> _canvas, ofPolyline polyline, int priority, float minW, float maxW) {
-    ofFloatColor color = colorSampler.getRandomColor();
-    shared_ptr<Tool> tool;
-    shared_ptr<StrokeStyle> style;
-    float width;
-    
-    ofPolyline taper = PolyLineUtil::createTaperNtoN(1, 1);
-    float rnd = ofRandom(3.0);
-    if (rnd < 1.0) {
-        width = ofRandom(1, 12);
-        style = shared_ptr<StrokeStyle>(new BasicStrokeStyle(color));
-    } else if (rnd < 2.0) {
-        width = ofRandom(1, 12);
-        style = shared_ptr<StrokeStyle>(new RoughEdgeStrokeStyle(color));
-    } else {
-        width = ofRandom(4, 12);
-        float freq = width / ofRandom(2, 4);
-        style = shared_ptr<StrokeStyle>(new StripeStrokeStyle(color, colorSampler.getRandomColor(), freq));
-    }
-    
-    rnd = ofRandom(3.0);
-    if (rnd < 1.0) {
-        tool = shared_ptr<Tool>(new BasicStrokeTool(_canvas, priority, style, polyline, width, taper));
-    } else if (rnd < 2.0) {
-        tool = shared_ptr<Tool>(new FlatPenStrokeTool(_canvas, priority, style, polyline, width, ofVec2f(ofRandom(-1, 1), ofRandom(-1, 1)), taper));
-    } else {
-        tool = shared_ptr<Tool>(new RoundStrokeTool(_canvas, priority, style, polyline, width, taper));
-    }
-    return tool;
 }
 
 void SketchScenario::update() {
@@ -334,22 +205,6 @@ void SketchScenario::draw() {
     if (debugFlag) {
         conductor.debugDraw();
     }
-}
-
-ofRectangle SketchScenario::randomRect(float minW, float minH, float maxW, float maxH) {
-    float w = ofRandom(minW, maxW);
-    float h = ofRandom(minH, maxH);
-    float x = ofRandom(0, BUFF_WIDTH - w);
-    float y = ofRandom(0, BUFF_HEIGHT - h);
-    return ofRectangle(x, y, w, h);
-}
-
-ofRectangle SketchScenario::randomRect2(float minW, float minH, float maxW, float maxH) {
-    float w = ofRandom(minW, maxW);
-    float h = ofRandom(minH, maxH);
-    float x = ofRandom(0 - w * 0.5, BUFF_WIDTH - w * 0.5);
-    float y = ofRandom(0 - h * 0.5, BUFF_HEIGHT - h * 0.5);
-    return ofRectangle(x, y, w, h);
 }
 
 ofPolyline SketchScenario::polyBlob() {
@@ -375,29 +230,6 @@ ofPolyline SketchScenario::polyBlob() {
 }
 
 
-
-void SketchScenario::imageTest() {
-    ofImage img;
-    img.load("img/PXL_20220721_034107723.jpg");
-    ofShader maskShader;
-    maskShader.load("shader/basic.vs", "shader/colorPrint/colorMaskPrint.fs");
-    
-    for(int i = 0; i < 10; i ++) {
-        ofFbo fbo;
-        fbo.allocate(BUFF_WIDTH, BUFF_HEIGHT, fboDepth, samplingDepth);
-        fbo.begin();
-        maskShader.begin();
-        maskShader.setUniform4f("keyColor", ofFloatColor(ofRandom(1.0), ofRandom(1.0), ofRandom(1.0), ofRandom(1.0)));
-        img.draw(0, 0, BUFF_WIDTH, BUFF_HEIGHT);
-        maskShader.end();
-        fbo.end();
-        auto tool = randomFboTool(canvas, fbo, ofVec2f(0,0));
-        conductor.addTool(tool);
-    }
-}
-
-
-
 void SketchScenario::randomGridTest() {
     vector<ofRectangle> rects = Illustrator::createRandomGrid(8, 8);
     for (int i = 0; i < rects.size(); i ++) {
@@ -406,7 +238,7 @@ void SketchScenario::randomGridTest() {
         ofVec2f dir = ofVec2f(ofRandom(-1, 1), ofRandom(-1, 1));
         auto fill = shared_ptr<ShaderFill>(new GradientStripeShaderFill(colorA, colorB, dir));
         vector<ofPolyline> polylines = Illustrator::createRectanglePath(rects[i]);
-        auto tool = randomPathTool(canvas, polylines[0]);
+        auto tool = toolUtil.getRandomPathTool(canvas, polylines[0], 0);
         if (ofRandom(1.0) < 0.4) {
             conductor.addTool(tool);
         }
@@ -424,33 +256,8 @@ void SketchScenario::randomGridTest2() {
         
         polylines[0] = PolyLineUtil::noiseWarp(polylines[0], 3, 8, 0.1, ofVec2f(0.0005), ofVec2f(200));
         if(ofRandom(1.0) < 0.25) {
-            auto tool = randomPathTool(canvas, polylines[0]);
+            auto tool = toolUtil.getRandomPathTool(canvas, polylines[0], 0);
             conductor.addTool(tool);
         }
-    }
-}
-
-
-void SketchScenario::paintTest() {
-    
-    vector<ofRectangle> rects = Illustrator::createRandomGrid(8, 8);
-    for (int i = 0; i < rects.size(); i ++) {
-        ofFloatColor colorA = colorSampler.getRandomColor();
-        ofFloatColor colorB = colorSampler.getRandomColor();
-        ofVec2f dir = ofVec2f(ofRandom(-1, 1), ofRandom(-1, 1));
-        auto fill = shared_ptr<ShaderFill>(new DotsShaderFill(colorA, colorB, dir));
-        vector<ofPolyline> polylines = Illustrator::createBlobPath(rects[i]);
-        auto tool = shared_ptr<Tool>(new ShaderFillTool(canvas, ofRandom(10), fill, polylines[0]));
-        conductor.addTool(tool);
-    }
-}
-
-
-void SketchScenario::squiggleTest() {
-    vector<ofRectangle> rects = Illustrator::createRandomGrid(5, 5);
-    for (int i = 0; i < rects.size(); i ++) {
-        vector<ofPolyline> polylines = Illustrator::createSquigglePath(rects[i]);
-        auto strokeTool = randomStrokeTool(canvas, polylines[0], 0, 10, 40);
-        conductor.addTool(strokeTool);
     }
 }

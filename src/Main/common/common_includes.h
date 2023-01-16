@@ -5,6 +5,7 @@
 #include "ColorUtil.hpp"
 #include "VectorUtil.hpp"
 #include "Tool.hpp"
+#include "ToolUtil.hpp"
 
 #include "ShaderFillTool.hpp"
 #include "ShaderFill.hpp"

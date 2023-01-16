@@ -83,6 +83,35 @@ ofPolyline PolyLineUtil::toRoundedStroke(ofPolyline line, float width, int resol
 }
 
 
+vector<ofPolyline> PolyLineUtil::toDottedLine(ofPolyline line, float spanA, float spanB) {
+    float len = 0, d = 1;
+    while (len == 0 && d < 1000) {
+        len = line.getLengthAtIndex(line.getVertices().size() - d);
+        d += 1;
+    }
+    
+    vector<ofPolyline> lines;
+    float p = 0;
+    while (p < len) {
+        ofPolyline dotLine;
+        int n = max(1.f, ceil(spanA / 2));
+        for (int i = 0; i < n; i ++) {
+            float t = float(i) / (n - 1);
+            float ep = min(len, p + spanA);
+            ofVec3f pt = line.getPointAtLength(ofLerp(p, ep, t));
+            dotLine.addVertex(pt);
+        }
+        
+        p += spanA + spanB;
+        lines.push_back(dotLine);
+    }
+    return lines;
+}
+
+
+
+
+
 ofPolyline PolyLineUtil::noiseWarp(ofPolyline line, int octave, float scaleMult, float decay, ofVec2f scale, ofVec2f amount, ofVec2f seed) {
     
     ofPolyline polyline;

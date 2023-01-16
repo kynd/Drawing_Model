@@ -25,7 +25,8 @@ public:
     static vector<ofPolyline> createWatermelonPath(ofRectangle rect);
     static vector<ofPolyline> createTreePath(ofRectangle rect);
  
-    
+    static vector<ofRectangle> createGrid(int nh, int nv);
     static vector<ofRectangle> createRandomGrid(int nh, int nv);
     static vector<ofRectangle> createRandomSquareGrid(int n);
+    static ofRectangle randomRect(float minW, float minH, float maxW, float maxH);
 };

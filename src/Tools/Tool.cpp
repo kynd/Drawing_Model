@@ -1,8 +1,12 @@
 #include "Tool.hpp"
 
+int Tool::idCnt = 0;
+
 Tool::Tool(shared_ptr<ofFbo> _canvas, float _priority) {
     canvas = _canvas;
     priority = _priority;
+    id = idCnt;
+    idCnt ++;
 }
 
 ofRectangle Tool::getBoundingBox() {

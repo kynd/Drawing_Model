@@ -1,7 +1,8 @@
 #pragma once
 
 #include "SketchScenario.hpp"
-#include "TestActor.hpp"
+#include "ShapeMorphActor.hpp"
+#include "BoxActor.hpp"
 
 class SketchScenario02 : public SketchScenario {
 public:
@@ -14,12 +15,15 @@ public:
     virtual void treeTest();
     virtual void pathMorphTest();
     virtual void shaderFillTest();
+    
+    virtual void randomBgTest();
+    virtual void dottedLineTest();
     virtual void lineTest();
     virtual void lineTestSpecific();
     virtual void maskTest();
     virtual void groupTest();
     
-    TestActor testActor;
-    
+    ShapeMorphActor shapeMorphActor;
+    BoxActor boxActor;
 };
 

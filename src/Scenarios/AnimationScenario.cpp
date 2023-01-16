@@ -9,8 +9,10 @@ AnimationScenario::AnimationScenario() {
     backgroungColor = colorSampler.getRandomColor();
     clearBackground();
     
+    
     animater.init(canvas);
     animater.update(conductor);
+    
 };
             
 void AnimationScenario::clearBackground() {
@@ -32,7 +34,7 @@ void AnimationScenario::draw() {
     } else if (conductor.getIsDone()) {
         if (saveFlag) { vs.save(*canvas);
             nImage ++;
-            if (nImage > 1000) {
+            if (autoExit != 0 && nImage > autoExit) {
                 std::exit(0);
             }
         }

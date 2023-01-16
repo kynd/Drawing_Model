@@ -366,6 +366,22 @@ vector<ofPolyline> Illustrator::createRandomQuadPath(ofRectangle rect) {
 
 
 
+vector<ofRectangle> Illustrator::createGrid(int nh, int nv) {
+    
+    vector<ofRectangle> rects;
+    
+    for (int nx = 0; nx < nh; nx ++) {
+        for (int ny = 0; ny < nv; ny ++) {
+            float x = float(BUFF_WIDTH) / nh * nx;
+            float y = float(BUFF_HEIGHT) / nv * ny;
+            float w = float(BUFF_WIDTH) / nh;
+            float h = float(BUFF_HEIGHT) / nv;
+            
+            ofPolyline bgRect = PolyLineUtil::rectangle(x, y, w, h);
+        }
+    }
+    return rects;
+}
 
 vector<ofRectangle> Illustrator::createRandomGrid(int nh, int nv) {
     float xSpan = float(BUFF_WIDTH) / nh;
@@ -451,4 +467,15 @@ vector<ofRectangle> Illustrator::createRandomSquareGrid(int n) {
         }
     }
     return rects;
+}
+
+
+
+
+ofRectangle Illustrator::randomRect(float minW, float minH, float maxW, float maxH) {
+    float w = ofRandom(minW, maxW);
+    float h = ofRandom(minH, maxH);
+    float x = ofRandom(0, BUFF_WIDTH - w);
+    float y = ofRandom(0, BUFF_HEIGHT - h);
+    return ofRectangle(x, y, w, h);
 }

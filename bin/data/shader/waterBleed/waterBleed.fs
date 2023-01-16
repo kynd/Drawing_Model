@@ -35,8 +35,8 @@ void main() {
     //vec4 baseSamp = texture(base, crd);
     //vec4 blurSamp = texture(blur, crd);
 
-    vec4 offBlurSamp = texture(blur, crd + noiseSamp.xy * 16.0);
-    vec4 offBaseSamp = texture(base, crd + noiseSamp.xy * 8.0);
+    vec4 offBlurSamp = texture(blur, crd + noiseSamp.xy * 8.0);
+    vec4 offBaseSamp = texture(base, crd + noiseSamp.xy * 2.0);
     vec2 offCoord = crd + noiseSamp.xy * 4.0 * offBlurSamp.a;
     vec4 prevBleedSamp = texture(prev, constrainCoord(offCoord));
 
@@ -48,7 +48,9 @@ void main() {
     vec4 gradCol = mix(colorA, colorB, smoothstep(0.1, 0.9, t + srand(rCoord) * 0.3));
 
     // Water Color Mix
-    vec4 mixed = mix(max(gradCol, prevBleedSamp), gradCol * prevBleedSamp, 0.75);
+    //vec4 mixed = (vec4(1.0) - gradCol * prevBleedSamp;
+    //mixed.a = 1.0;
+    vec4 mixed = mix(max(gradCol, prevBleedSamp), gradCol * prevBleedSamp, 0.9);
     //mixed = mix(gradCol, mixed, 0.5);
 
     //gradCol = mix(gradCol, mixed, 1.0);

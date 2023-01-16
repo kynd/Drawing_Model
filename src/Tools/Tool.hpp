@@ -25,9 +25,12 @@ public:
     virtual void finalizeMain();
     virtual void debugDraw();
     
+    int nIterations = 1;
 protected:
     States state = STANDBY;
     shared_ptr<ofFbo> canvas;
     ofRectangle boundingBox;
     float priority;
+    int id;
+    static int idCnt;
 };

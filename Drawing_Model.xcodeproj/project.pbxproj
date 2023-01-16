@@ -16,7 +16,12 @@
 		560E23CB29157DCB00C0FBE7 /* PaintPatchShaderFill.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 560E23C929157DCB00C0FBE7 /* PaintPatchShaderFill.cpp */; };
 		560E23CE291594E300C0FBE7 /* WavePhysicsAnimator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 560E23CC291594E300C0FBE7 /* WavePhysicsAnimator.cpp */; };
 		560E23D12915DC9600C0FBE7 /* BlobDanceAnimator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 560E23CF2915DC9600C0FBE7 /* BlobDanceAnimator.cpp */; };
+		5611AA1529713F5F000EBB47 /* SolarActor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5611AA1329713F5F000EBB47 /* SolarActor.cpp */; };
 		56138ED828E910250092CFD9 /* ColorUtil.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 56138ED628E910250092CFD9 /* ColorUtil.cpp */; };
+		56758A6C295A42DD00C8FF8B /* WaveTideActor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 56758A6A295A42DD00C8FF8B /* WaveTideActor.cpp */; };
+		56758A6F2960FA0800C8FF8B /* OrbitActor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 56758A6D2960FA0800C8FF8B /* OrbitActor.cpp */; };
+		56758A722967E38400C8FF8B /* BoxActor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 56758A702967E38400C8FF8B /* BoxActor.cpp */; };
+		56758A75296A353700C8FF8B /* ToolUtil.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 56758A73296A353700C8FF8B /* ToolUtil.cpp */; };
 		567BE8AB28EAB11B00ED9D84 /* ColorSampler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 567BE8A928EAB11B00ED9D84 /* ColorSampler.cpp */; };
 		567BE8AE28EAB68E00ED9D84 /* VideoSaver.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 567BE8AC28EAB68E00ED9D84 /* VideoSaver.cpp */; };
 		5690002F291863C5007C83B8 /* Illustrator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5690002D291863C5007C83B8 /* Illustrator.cpp */; };
@@ -29,7 +34,7 @@
 		56900044292224B1007C83B8 /* GradientStripeShaderFill.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 56900042292224B1007C83B8 /* GradientStripeShaderFill.cpp */; };
 		56900047292375E8007C83B8 /* DotsShaderFill.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 56900045292375E8007C83B8 /* DotsShaderFill.cpp */; };
 		5692E2672956232B000F076F /* AnimationActor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5692E2652956232B000F076F /* AnimationActor.cpp */; };
-		5692E26A29562466000F076F /* TestActor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5692E26829562466000F076F /* TestActor.cpp */; };
+		5692E26A29562466000F076F /* ShapeMorphActor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5692E26829562466000F076F /* ShapeMorphActor.cpp */; };
 		5692E26D29562501000F076F /* Runnable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5692E26B29562501000F076F /* Runnable.cpp */; };
 		5692E271295630AB000F076F /* VectorUtil.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5692E26F295630AB000F076F /* VectorUtil.cpp */; };
 		5692E274295643C0000F076F /* TestAnimator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5692E272295643C0000F076F /* TestAnimator.cpp */; };
@@ -88,8 +93,18 @@
 		560E23CD291594E300C0FBE7 /* WavePhysicsAnimator.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = WavePhysicsAnimator.hpp; sourceTree = "<group>"; };
 		560E23CF2915DC9600C0FBE7 /* BlobDanceAnimator.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = BlobDanceAnimator.cpp; sourceTree = "<group>"; };
 		560E23D02915DC9600C0FBE7 /* BlobDanceAnimator.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = BlobDanceAnimator.hpp; sourceTree = "<group>"; };
+		5611AA1329713F5F000EBB47 /* SolarActor.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = SolarActor.cpp; sourceTree = "<group>"; };
+		5611AA1429713F5F000EBB47 /* SolarActor.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = SolarActor.hpp; sourceTree = "<group>"; };
 		56138ED628E910250092CFD9 /* ColorUtil.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ColorUtil.cpp; sourceTree = "<group>"; };
 		56138ED728E910250092CFD9 /* ColorUtil.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = ColorUtil.hpp; sourceTree = "<group>"; };
+		56758A6A295A42DD00C8FF8B /* WaveTideActor.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = WaveTideActor.cpp; sourceTree = "<group>"; };
+		56758A6B295A42DD00C8FF8B /* WaveTideActor.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = WaveTideActor.hpp; sourceTree = "<group>"; };
+		56758A6D2960FA0800C8FF8B /* OrbitActor.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = OrbitActor.cpp; sourceTree = "<group>"; };
+		56758A6E2960FA0800C8FF8B /* OrbitActor.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = OrbitActor.hpp; sourceTree = "<group>"; };
+		56758A702967E38400C8FF8B /* BoxActor.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = BoxActor.cpp; sourceTree = "<group>"; };
+		56758A712967E38400C8FF8B /* BoxActor.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = BoxActor.hpp; sourceTree = "<group>"; };
+		56758A73296A353700C8FF8B /* ToolUtil.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ToolUtil.cpp; sourceTree = "<group>"; };
+		56758A74296A353700C8FF8B /* ToolUtil.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = ToolUtil.hpp; sourceTree = "<group>"; };
 		567BE8A928EAB11B00ED9D84 /* ColorSampler.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ColorSampler.cpp; sourceTree = "<group>"; };
 		567BE8AA28EAB11B00ED9D84 /* ColorSampler.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = ColorSampler.hpp; sourceTree = "<group>"; };
 		567BE8AC28EAB68E00ED9D84 /* VideoSaver.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = VideoSaver.cpp; sourceTree = "<group>"; };
@@ -114,8 +129,8 @@
 		56900046292375E8007C83B8 /* DotsShaderFill.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = DotsShaderFill.hpp; sourceTree = "<group>"; };
 		5692E2652956232B000F076F /* AnimationActor.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = AnimationActor.cpp; sourceTree = "<group>"; };
 		5692E2662956232B000F076F /* AnimationActor.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = AnimationActor.hpp; sourceTree = "<group>"; };
-		5692E26829562466000F076F /* TestActor.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = TestActor.cpp; sourceTree = "<group>"; };
-		5692E26929562466000F076F /* TestActor.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = TestActor.hpp; sourceTree = "<group>"; };
+		5692E26829562466000F076F /* ShapeMorphActor.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ShapeMorphActor.cpp; sourceTree = "<group>"; };
+		5692E26929562466000F076F /* ShapeMorphActor.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = ShapeMorphActor.hpp; sourceTree = "<group>"; };
 		5692E26B29562501000F076F /* Runnable.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Runnable.cpp; sourceTree = "<group>"; };
 		5692E26C29562501000F076F /* Runnable.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Runnable.hpp; sourceTree = "<group>"; };
 		5692E26F295630AB000F076F /* VectorUtil.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = VectorUtil.cpp; sourceTree = "<group>"; };
@@ -448,8 +463,16 @@
 			children = (
 				5692E2652956232B000F076F /* AnimationActor.cpp */,
 				5692E2662956232B000F076F /* AnimationActor.hpp */,
-				5692E26829562466000F076F /* TestActor.cpp */,
-				5692E26929562466000F076F /* TestActor.hpp */,
+				5692E26829562466000F076F /* ShapeMorphActor.cpp */,
+				5692E26929562466000F076F /* ShapeMorphActor.hpp */,
+				56758A6A295A42DD00C8FF8B /* WaveTideActor.cpp */,
+				56758A6B295A42DD00C8FF8B /* WaveTideActor.hpp */,
+				56758A6D2960FA0800C8FF8B /* OrbitActor.cpp */,
+				56758A6E2960FA0800C8FF8B /* OrbitActor.hpp */,
+				56758A702967E38400C8FF8B /* BoxActor.cpp */,
+				56758A712967E38400C8FF8B /* BoxActor.hpp */,
+				5611AA1329713F5F000EBB47 /* SolarActor.cpp */,
+				5611AA1429713F5F000EBB47 /* SolarActor.hpp */,
 			);
 			path = AnimationActor;
 			sourceTree = "<group>";
@@ -494,6 +517,8 @@
 		56A273CB28C70EB900325DD9 /* Tools */ = {
 			isa = PBXGroup;
 			children = (
+				56758A73296A353700C8FF8B /* ToolUtil.cpp */,
+				56758A74296A353700C8FF8B /* ToolUtil.hpp */,
 				56F8FAC62946C2BE0049F6CB /* ShaderFillTool.cpp */,
 				56F8FAC72946C2BE0049F6CB /* ShaderFillTool.hpp */,
 				56A273C628C7067C00325DD9 /* Tool.cpp */,
@@ -970,7 +995,7 @@
 				56F8FAC52946C24A0049F6CB /* WaterBleedShaderFill.cpp in Sources */,
 				56F8FABC293DC55F0049F6CB /* MaskProcessAnimator.cpp in Sources */,
 				56A37E2C2932108900EDBA7E /* FlatPenStrokeTool.cpp in Sources */,
-				5692E26A29562466000F076F /* TestActor.cpp in Sources */,
+				5692E26A29562466000F076F /* ShapeMorphActor.cpp in Sources */,
 				56AA2CA528FCE40A001A78EC /* AnimationScenario.cpp in Sources */,
 				5692E2672956232B000F076F /* AnimationActor.cpp in Sources */,
 				560E23C82915719800C0FBE7 /* NoiseGradientShaderFill.cpp in Sources */,
@@ -984,6 +1009,7 @@
 				5604E4372931FC2B007076DC /* StrokeStyle.cpp in Sources */,
 				5604E43B2931FD5A007076DC /* BasicStrokeStyle.cpp in Sources */,
 				56900035291B7F9D007C83B8 /* BrushWaveAnimator.cpp in Sources */,
+				5611AA1529713F5F000EBB47 /* SolarActor.cpp in Sources */,
 				56A1AEAA29178A1600BCCD5E /* DragStrokeTool.cpp in Sources */,
 				56A37E38293498F900EDBA7E /* GroupTool.cpp in Sources */,
 				56A273C228C703F700325DD9 /* Scenario.cpp in Sources */,
@@ -995,6 +1021,8 @@
 				560E23C12914ECAC00C0FBE7 /* StrokeTool.cpp in Sources */,
 				56900044292224B1007C83B8 /* GradientStripeShaderFill.cpp in Sources */,
 				5690004129221CF7007C83B8 /* PaintTextureShaderFill.cpp in Sources */,
+				56758A6C295A42DD00C8FF8B /* WaveTideActor.cpp in Sources */,
+				56758A722967E38400C8FF8B /* BoxActor.cpp in Sources */,
 				56F8FACB294B03080049F6CB /* MetalicGradientShaderFill.cpp in Sources */,
 				5690003E2921BF05007C83B8 /* SketchScenario02.cpp in Sources */,
 				5692E271295630AB000F076F /* VectorUtil.cpp in Sources */,
@@ -1004,12 +1032,14 @@
 				5690002F291863C5007C83B8 /* Illustrator.cpp in Sources */,
 				567BE8AB28EAB11B00ED9D84 /* ColorSampler.cpp in Sources */,
 				56A37E29293206AE00EDBA7E /* RoughEdgeStrokeStyle.cpp in Sources */,
+				56758A75296A353700C8FF8B /* ToolUtil.cpp in Sources */,
 				5692E26D29562501000F076F /* Runnable.cpp in Sources */,
 				56A37E3B2935E51900EDBA7E /* StepScenario.cpp in Sources */,
 				56138ED828E910250092CFD9 /* ColorUtil.cpp in Sources */,
 				560E23CB29157DCB00C0FBE7 /* PaintPatchShaderFill.cpp in Sources */,
 				569000322918C58A007C83B8 /* SquareLoopAnimator.cpp in Sources */,
 				56F8FAD12954D3850049F6CB /* Interpolator.cpp in Sources */,
+				56758A6F2960FA0800C8FF8B /* OrbitActor.cpp in Sources */,
 				56900038291F6098007C83B8 /* MaskTool.cpp in Sources */,
 				56A273D028C70F0700325DD9 /* TestTool.cpp in Sources */,
 				56F8FAC2293F15460049F6CB /* PlanetAnimator.cpp in Sources */,

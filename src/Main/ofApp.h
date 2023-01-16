@@ -9,7 +9,9 @@
 #include "AnimationScenario.hpp"
 #include "StepScenario.hpp"
 #include "VideoSaver.hpp"
-#include "TestActor.hpp"
+#include "OrbitActor.hpp"
+#include "BoxActor.hpp"
+#include "SolarActor.hpp"
 
 class ofApp : public ofBaseApp{
 
@@ -31,9 +33,11 @@ class ofApp : public ofBaseApp{
 		void gotMessage(ofMessage msg);
     
     //AnimationScenario runner;
+    //SketchScenario runner;
     SketchScenario02 runner;
     //StepScenario runner;
-    //TestActor runner;
-    
+    //shapeMorphActor runner;
+    //BoxActor runner;
+    //SolarActor runner;
     VideoSaver vs;
 };
