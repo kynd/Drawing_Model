@@ -11,6 +11,7 @@ public:
     virtual void setupMain();
     virtual void activateMain();
     virtual void updateMain();
+    virtual void firstUpdate();
     virtual void updateMainSingle();
     virtual void updateMainPingPong();
     virtual void debugDraw();
@@ -30,5 +31,6 @@ protected:
     ofFbo pingpong[2];
     int pIdx = 0;
     
+    bool wasUpdated = false;
     static bool isInitialized;
 };

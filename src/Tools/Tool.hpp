@@ -24,9 +24,9 @@ public:
     virtual void finalize();
     virtual void finalizeMain();
     virtual void debugDraw();
-    
-    int nIterations = 1;
+    bool isMultiStep();
 protected:
+    int multiStep = false;
     States state = STANDBY;
     shared_ptr<ofFbo> canvas;
     ofRectangle boundingBox;

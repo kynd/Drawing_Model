@@ -16,6 +16,7 @@
 #include "GradientStripeShaderFill.hpp"
 #include "DotsShaderFill.hpp"
 #include "WaterBleedShaderFill.hpp"
+#include "SlideBleedShaderFill.hpp"
 
 #include "TestTool.hpp"
 #include "BasicStrokeTool.hpp"

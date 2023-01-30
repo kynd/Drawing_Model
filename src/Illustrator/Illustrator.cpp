@@ -190,7 +190,7 @@ vector<ofPolyline> Illustrator::createWatermelonPath(ofRectangle rect) {
             polyline.curveTo(linePointList[i0][j]);
         }
         polyline.addVertex(linePointList[i0][linePointList[i0].size() - 1]);
-        for (int j = linePointList[i0].size() - 1; j >= 0; j --) {
+        for (int j = int(linePointList[i0].size()) - 1; j >= 0; j --) {
             polyline.curveTo(linePointList[i1][j]);
         }
         polyline.close();
@@ -364,6 +364,31 @@ vector<ofPolyline> Illustrator::createRandomQuadPath(ofRectangle rect) {
 }
 
 
+vector<ofPolyline> Illustrator::randomFillPaths(ofRectangle rect) {
+    int rnd = ofRandom(5);
+    if (rnd == 0) {
+        return createWavyPath(rect);
+    } else if (rnd == 1) {
+        return createRandomQuadPath(rect);
+    } else if (rnd == 2) {
+        return createStarBlobPath(rect);
+    } else if (rnd == 3) {
+        return createOvalPath(rect);
+    } else {
+        return createBlobPath(rect);
+    }
+}
+
+vector<ofPolyline> Illustrator::randomStrokePaths(ofRectangle rect) {
+    int rnd = ofRandom(3);
+    if (rnd == 0) {
+        return createSquigglePath(rect);
+    } else if (rnd == 1) {
+        return createGridPointPath(rect, ofRandom(1, 5), ofRandom(1, 5), ofRandom(3, 8));
+    } else {
+        return createFastDenseSquigglePath(rect);
+    }
+}
 
 
 vector<ofRectangle> Illustrator::createGrid(int nh, int nv) {

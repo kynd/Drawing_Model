@@ -10,7 +10,7 @@ public:
     virtual void end();
     virtual void preprocess(ofFbo fbo);
     virtual ofShader& getShader();
-    int nIterations = 1;
+    int nIterations = 0;
 protected:
     static ofShader shader;
 };

@@ -16,11 +16,14 @@ ShaderFillTool::ShaderFillTool(shared_ptr<ofFbo> _canvas, float _priority, share
     ofRectangle bb = shape.getBoundingBox();
     boundingBox = ofRectangle(bb.x - margin, bb.y - margin, bb.width + margin * 2, bb.height + margin * 2);
     
-    
     boundingBox.x = round(boundingBox.x);
     boundingBox.y = round(boundingBox.y);
     boundingBox.width = round(boundingBox.width);
     boundingBox.height = round(boundingBox.height);
+    
+    if (fill->nIterations > 0) {
+        multiStep = true;
+    }
     
     setup();
 }
@@ -56,10 +59,23 @@ void ShaderFillTool::setupMain() {
     pathShape.draw();
     ofPopMatrix();
     base.end();
-    
 }
 
 void ShaderFillTool::activateMain() {
+    
+}
+
+void ShaderFillTool::updateMain() {
+    if (!wasUpdated) {firstUpdate();}
+    if (maxCnt > 1) {
+        updateMainPingPong();
+    } else {
+        updateMainSingle();
+    }
+}
+
+void ShaderFillTool::firstUpdate() {
+    wasUpdated = true;
     
     canvasCopy.allocate(boundingBox.width, boundingBox.height, fboDepth, samplingDepth);
     
@@ -82,13 +98,7 @@ void ShaderFillTool::activateMain() {
     fill->preprocess(base);
 }
 
-void ShaderFillTool::updateMain() {
-    if (maxCnt > 1) {
-        updateMainPingPong();
-    } else {
-        updateMainSingle();
-    }
-}
+
 
 void ShaderFillTool::updateMainSingle() {
     canvas->begin();

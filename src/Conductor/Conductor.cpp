@@ -9,6 +9,7 @@ Conductor::Conductor() {
 };
 
 void Conductor::addTool(shared_ptr<Tool> tool) {
+    isSorted = false;
     tools.push_back(tool);
 }
 
@@ -30,33 +31,61 @@ void Conductor::runToolImmediately(shared_ptr<Tool> tool, int safetyCount) {
     }
 }
 
+bool Conductor::compareToolPriorities(shared_ptr<Tool> a, shared_ptr<Tool> b) {
+    return a->getPriority() > b->getPriority();
+}
+
 void Conductor::activate() {
-    float maxPriority = -9999999;
-    //cout << &endl;
-    // Get the lowest priority among active tools
-    for (int i = 0; i < tools.size(); i ++) {
-        maxPriority = max(maxPriority, tools[i]->getPriority());
+    if (!isSorted) {
+        sort(tools.begin(), tools.end(), Conductor::compareToolPriorities);
+        isSorted = true;
     }
     
-    
+    float maxPriority = tools[0]->getPriority();
+    //cout << "MAX: " << maxPriority << &endl;
+    //cout << &endl;
+    // Get the lowest priority among active tools
+    /*
+     for (int i = 0; i < tools.size(); i ++) {
+     maxPriority = max(maxPriority, tools[i]->getPriority());
+     }
+     */
     // Loop and activate
     int doneCount = 0;
+    int activeCount = 0;
+    bool hasActiveMultiStep = false;
     for (int i = 0; i < tools.size(); i ++) {
-        
+        if (activeCount >= 300) {break;}
         if (tools[i]->getState() == Tool::COMPLETE) { doneCount ++; continue; }
-        if (tools[i]->getState() == Tool::ACTIVE){ continue; }
-        if (tools[i]->getPriority() < maxPriority) { continue; }
-        bool result = true;
-        for (int j = 0; j < tools.size(); j ++) {
-            if (tools[j]->getState() == Tool::ACTIVE &&
-                tools[i]->getBoundingBox().intersects(tools[j]->getBoundingBox()) ) {
-                    result = false; break;
-            }
+        if (tools[i]->getState() == Tool::ACTIVE){
+            activeCount ++;
+            hasActiveMultiStep |= tools[i]->isMultiStep();
+            continue;
         }
         
-        if (result) {
-            //cout << "activate " << i << "(" << ofGetFrameNum() << ")" << &endl;
-            tools[i]->activate();
+        if (tools[i]->getPriority() >= maxPriority) {
+            bool result = true;
+            for (int j = 0; j < tools.size(); j ++) {
+                if (tools[j]->getState() == Tool::ACTIVE &&
+                    tools[i]->getBoundingBox().intersects(tools[j]->getBoundingBox()) ) {
+                    result = false; break;
+                }
+            }
+            
+            if (result) {
+                tools[i]->activate();
+                activeCount ++;
+                hasActiveMultiStep |= tools[i]->isMultiStep();
+                //cout << "A" << i << " prio" << tools[i]->getPriority() <<" " << hasActiveMultiStep <<  &endl;
+            }
+        } else {
+            if (!hasActiveMultiStep) {
+                tools[i]->activate();
+                activeCount ++;
+                hasActiveMultiStep |= tools[i]->isMultiStep();
+                
+                //cout << "B" << i << " prio" << tools[i]->getPriority() <<" " << hasActiveMultiStep <<  &endl;
+            }
         }
     }
 }
@@ -82,18 +111,20 @@ void Conductor::update() {
     }
     
     bool deleted = false;
-    for (int i = tools.size() - 1; i >= 0; i --) {
+    for (int i = int(tools.size()) - 1; i >= 0; i --) {
         if (tools[i]->getState() == Tool::COMPLETE) {
             //cout << "delete " << i << "(" << ofGetFrameNum() << ")" << &endl;
             tools.erase(tools.begin() + i);
             deleted = true;
             
-            if (tools.size() == 0) {
-                //cout << "DONE" << &endl;
-                isDone = true;
-            }
         }
     }
+    
+    if (tools.size() == 0) {
+        //cout << "DONE" << &endl;
+        isDone = true;
+    }
+    
     if (tools.size() > 0 && (activeCnt == 0 || deleted)) {
         activate();
     }

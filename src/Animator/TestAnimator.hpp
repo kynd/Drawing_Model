@@ -12,7 +12,6 @@ public:
     void init(shared_ptr<ofFbo> _canvas);
     void update(Conductor& conductor);
     vector<ShapeMorphActor> shapeMorphActors;
-    //vector<Actor> actors;
     BoxActor boxActor;
     vector<SolarActor> solarActors;
     int nShapes = 4;

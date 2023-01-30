@@ -10,6 +10,7 @@ public:
     Conductor();
     void addTool(shared_ptr<Tool> tool);
     void runToolImmediately(shared_ptr<Tool> tool, int safetyCount = 30);
+    static bool compareToolPriorities(shared_ptr<Tool> a, shared_ptr<Tool> b);
     void activate();
     bool getIsDone();
     void clear();
@@ -20,6 +21,7 @@ public:
     vector< shared_ptr<Tool> > tools;
     int id = 0;
 protected:
+    bool isSorted = false;
     bool isDone = false;
     static int idCnt;
 };

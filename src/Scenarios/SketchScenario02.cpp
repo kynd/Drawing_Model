@@ -18,24 +18,41 @@ void SketchScenario02::next() {
     canvas->end();
     
     conductor.clear();
-    maskTest();
+    orderTest();
 }
 
-vector<ofPolyline> SketchScenario02::randomPaths(ofRectangle rect) {
-    int rnd = ofRandom(5);
-    if (rnd == 0) {
-        return Illustrator::createWavyPath(rect);
-    } else if (rnd == 1) {
-        return Illustrator::createRandomQuadPath(rect);
-    } else if (rnd == 2) {
-        return Illustrator::createStarBlobPath(rect);
-    } else if (rnd == 3) {
-        return Illustrator::createOvalPath(rect);
-    } else {
-        return Illustrator::createBlobPath(rect);
+void SketchScenario02::orderTest() {
+    
+    for (int n = 4; n > 1; n --) {
+        vector<ofRectangle> rects;
+        for (int xi = 0; xi < n; xi ++) {
+            for (int yi = 0; yi < n; yi ++) {
+                float x = float(BUFF_WIDTH) / (n) * xi;
+                float y = float(BUFF_HEIGHT) / (n) * yi;
+                float w = float(BUFF_WIDTH) / n * 1;
+                float h = float(BUFF_HEIGHT) / n * 1;
+                rects.push_back(ofRectangle(x, y, w, h));
+            }
+        }
+        
+        for (int i = 0; i < rects.size(); i ++) {
+            if (ofRandom(1.0) < 0.5) {
+                vector<ofPolyline> lines = Illustrator::randomFillPaths(rects[i]);
+                for (auto line: lines) {
+                    auto tool = toolUtil.getRandomPathTool(canvas, line, i + (10 - n) * 100);
+                    conductor.addTool(tool);
+                }
+            } else {
+                vector<ofPolyline> lines = Illustrator::randomStrokePaths(rects[i]);
+                for (auto line: lines) {
+                    auto tool = toolUtil.getRandomStrokeTool(canvas, line, i + (10 - n) * 100);
+                    conductor.addTool(tool);
+                }
+            }
+        }
     }
-    return Illustrator::createBlobPath(rect);
 }
+
 
 void SketchScenario02::starTest() {
     vector<ofRectangle> rects;
@@ -132,7 +149,7 @@ void SketchScenario02::shaderFillTest() {
         vector<ofRectangle> rects = Illustrator::createRandomSquareGrid(ofRandom(1, 4));
         shared_ptr<ShaderFill> fill = shared_ptr<ShaderFill>(new NoiseGradientShaderFill(ofFloatColor(0,0,0,1),ofFloatColor(0, 0,0,1)));
         for (int i = 0; i < rects.size(); i ++) {
-            vector<ofPolyline> polylines = randomPaths(rects[i]);
+            vector<ofPolyline> polylines = Illustrator::randomFillPaths(rects[i]);
             for (int j = 0; j < polylines.size(); j ++) {
                 
                 ofPolyline line = polylines[j];//PolyLineUtil::noiseWarp(polylines[j], 2, 8, 0.5, ofVec2f(1.f / BUFF_WIDTH), ofVec2f(20));
@@ -153,7 +170,7 @@ void SketchScenario02::shaderFillTest() {
     
     vector<ofRectangle> rects = Illustrator::createRandomSquareGrid(ofRandom(1, 6));
     for (int i = 0; i < rects.size(); i ++) {
-        vector<ofPolyline> polylines = randomPaths(rects[i]);
+        vector<ofPolyline> polylines = Illustrator::randomFillPaths(rects[i]);
         for (int j = 0; j < polylines.size(); j ++) {
             
             ofPolyline line = PolyLineUtil::noiseWarp(polylines[j], 2, 8, 0.5, ofVec2f(1.f / BUFF_WIDTH), ofVec2f(20));

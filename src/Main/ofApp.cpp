@@ -7,7 +7,7 @@ void ofApp::setup(){
     } else {
         ofSetVerticalSync(false);
     }
-    //ofSetFrameRate(60);
+    //ofSetFrameRate(2);
     ofSetCircleResolution(256);
     
     //runner.setPosition(ofVec2f(BUFF_WIDTH / 4, BUFF_HEIGHT / 4), ofVec2f(0.5));

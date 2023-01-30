@@ -188,8 +188,10 @@ void BoxActor::updateConductor(shared_ptr<ofFbo> canvas, Conductor& conductor) {
             
             vector<ofPolyline> polylines;
             polylines = PolyLineUtil::toDottedLine(boxes[bi].edgeLines[i], boxes[bi].baseSpan, boxes[bi].span);
+            
+            
             ofFloatColor color = boxes[bi].strokeColor;
-            auto style = shared_ptr<StrokeStyle>(new BasicStrokeStyle(color));
+            auto style = shared_ptr<StrokeStyle>(new RoughEdgeStrokeStyle(color));
             for (int i = 0; i < polylines.size(); i ++) {
                 auto tool = shared_ptr<Tool>(new RoundStrokeTool(canvas, 0, style, polylines[i], boxes[bi].lineWidth));
                 conductor.addTool(tool);

@@ -189,8 +189,8 @@ void SketchScenario::gridFBOTest() {
 
 void SketchScenario::update() {
     if (conductor.getIsDone()) {
-        vs.save(*canvas);
-        next();
+        //vs.save(*canvas);
+        //next();
     }
     conductor.update();
     cnt ++;

@@ -32,9 +32,9 @@ class ofApp : public ofBaseApp{
 		void dragEvent(ofDragInfo dragInfo);
 		void gotMessage(ofMessage msg);
     
-    //AnimationScenario runner;
+    AnimationScenario runner;
     //SketchScenario runner;
-    SketchScenario02 runner;
+    //SketchScenario02 runner;
     //StepScenario runner;
     //shapeMorphActor runner;
     //BoxActor runner;

@@ -32,6 +32,8 @@ DragStrokeTool::DragStrokeTool(shared_ptr<ofFbo> _canvas, float _priority,
     float lenL = lineA.getLengthAtIndex(lineA.getVertices().size() - 1);
     float lenR = lineB.getLengthAtIndex(lineB.getVertices().size() - 1);
     length = max(lenL, lenR);
+    
+    multiStep = true;
     setup();
 }
 

@@ -9,6 +9,7 @@ public:
     virtual void setupMain();
     virtual void activateMain();
     virtual void updateMain();
+    virtual void firstUpdate();
     virtual void debugDraw();
     shared_ptr<ofFbo> getLocalCanvas();
     shared_ptr<ofFbo> getMask();
@@ -16,6 +17,7 @@ public:
     void addTool(shared_ptr<Tool> tool);
     void addMask(shared_ptr<Tool> tool);
 protected:
+    bool wasUpdated = false;
     static void initialize();
     shared_ptr<ofFbo> localCanvas, mask;
     Conductor conductor;

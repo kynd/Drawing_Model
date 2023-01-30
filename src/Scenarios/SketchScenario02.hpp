@@ -10,7 +10,8 @@ public:
     
     virtual void next();
     virtual void draw();
-    vector<ofPolyline> randomPaths(ofRectangle rect);
+    
+    virtual void orderTest();
     virtual void starTest();
     virtual void treeTest();
     virtual void pathMorphTest();

@@ -11,6 +11,7 @@ public:
     virtual void setupMain();
     virtual void activateMain();
     virtual void updateMain();
+    virtual void firstUpdate();
     virtual void debugDraw();
     
 protected:
@@ -24,5 +25,6 @@ protected:
     int margin = 32;
     ofFbo base, original;
     
+    bool wasUpdated = false;
     static bool isInitialized;
 };

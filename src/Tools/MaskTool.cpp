@@ -25,16 +25,6 @@ void MaskTool::setupMain() {
 
 void MaskTool::activateMain() {
     
-    //cout << "act" << id << &endl;
-    allocateMask();
-    localCanvas->allocate(BUFF_WIDTH, BUFF_HEIGHT, fboDepth, samplingDepth);
-    localCanvas->begin();
-    canvas->draw(0, 0);
-    localCanvas->end();
-    
-    for (int i = 0; i < masks.size(); i ++) {
-        conductor.runToolImmediately(masks[i]);
-    }
 }
 
 void MaskTool::allocateMask() {
@@ -47,6 +37,10 @@ void MaskTool::allocateMask() {
 
 
 void MaskTool::updateMain() {
+    if (!wasUpdated) {
+        firstUpdate();
+    }
+    
     conductor.update();
     
     //cout << "upd" << id << "  " << conductor.tools.size() << &endl;
@@ -54,19 +48,33 @@ void MaskTool::updateMain() {
     canvas->draw(0,0);
     canvasCopy.end();
     
-    if (ofRandom(1.0) < 0.25) {
-        canvas->begin();
-        maskShader.begin();
-        maskShader.setUniformTexture("canvas", canvasCopy, 1);
-        maskShader.setUniformTexture("mask", *mask, 2);
-        localCanvas->draw(0, 0);
-        maskShader.end();
-        canvas->end();
-    }
+    canvas->begin();
+    maskShader.begin();
+    maskShader.setUniformTexture("canvas", canvasCopy, 1);
+    maskShader.setUniformTexture("mask", *mask, 2);
+    localCanvas->draw(0, 0);
+    maskShader.end();
+    canvas->end();
     
     if (conductor.getIsDone()) {
         finalize();
         //cout << "end" << id << &endl;
+    }
+}
+
+
+void MaskTool::firstUpdate() {
+    wasUpdated = true;
+    
+    //cout << "act" << id << &endl;
+    allocateMask();
+    localCanvas->allocate(BUFF_WIDTH, BUFF_HEIGHT, fboDepth, samplingDepth);
+    localCanvas->begin();
+    canvas->draw(0, 0);
+    localCanvas->end();
+    
+    for (int i = 0; i < masks.size(); i ++) {
+        conductor.runToolImmediately(masks[i]);
     }
 }
 

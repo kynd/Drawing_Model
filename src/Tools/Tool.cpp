@@ -68,3 +68,7 @@ void Tool::updateMain() {
 void Tool::debugDraw() {
     
 }
+
+bool Tool::isMultiStep() {
+    return multiStep;
+}

@@ -24,7 +24,10 @@ public:
     static vector<ofPolyline> createRandomQuadPath(ofRectangle rect);
     static vector<ofPolyline> createWatermelonPath(ofRectangle rect);
     static vector<ofPolyline> createTreePath(ofRectangle rect);
- 
+    
+    static vector<ofPolyline> randomFillPaths(ofRectangle rect);
+    static vector<ofPolyline> randomStrokePaths(ofRectangle rect);
+    
     static vector<ofRectangle> createGrid(int nh, int nv);
     static vector<ofRectangle> createRandomGrid(int nh, int nv);
     static vector<ofRectangle> createRandomSquareGrid(int n);

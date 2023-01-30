@@ -17,6 +17,7 @@
 		560E23CE291594E300C0FBE7 /* WavePhysicsAnimator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 560E23CC291594E300C0FBE7 /* WavePhysicsAnimator.cpp */; };
 		560E23D12915DC9600C0FBE7 /* BlobDanceAnimator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 560E23CF2915DC9600C0FBE7 /* BlobDanceAnimator.cpp */; };
 		5611AA1529713F5F000EBB47 /* SolarActor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5611AA1329713F5F000EBB47 /* SolarActor.cpp */; };
+		5611AA1829760206000EBB47 /* SlideBleedShaderFill.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5611AA1629760206000EBB47 /* SlideBleedShaderFill.cpp */; };
 		56138ED828E910250092CFD9 /* ColorUtil.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 56138ED628E910250092CFD9 /* ColorUtil.cpp */; };
 		56758A6C295A42DD00C8FF8B /* WaveTideActor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 56758A6A295A42DD00C8FF8B /* WaveTideActor.cpp */; };
 		56758A6F2960FA0800C8FF8B /* OrbitActor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 56758A6D2960FA0800C8FF8B /* OrbitActor.cpp */; };
@@ -95,6 +96,8 @@
 		560E23D02915DC9600C0FBE7 /* BlobDanceAnimator.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = BlobDanceAnimator.hpp; sourceTree = "<group>"; };
 		5611AA1329713F5F000EBB47 /* SolarActor.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = SolarActor.cpp; sourceTree = "<group>"; };
 		5611AA1429713F5F000EBB47 /* SolarActor.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = SolarActor.hpp; sourceTree = "<group>"; };
+		5611AA1629760206000EBB47 /* SlideBleedShaderFill.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = SlideBleedShaderFill.cpp; sourceTree = "<group>"; };
+		5611AA1729760206000EBB47 /* SlideBleedShaderFill.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = SlideBleedShaderFill.hpp; sourceTree = "<group>"; };
 		56138ED628E910250092CFD9 /* ColorUtil.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ColorUtil.cpp; sourceTree = "<group>"; };
 		56138ED728E910250092CFD9 /* ColorUtil.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = ColorUtil.hpp; sourceTree = "<group>"; };
 		56758A6A295A42DD00C8FF8B /* WaveTideActor.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = WaveTideActor.cpp; sourceTree = "<group>"; };
@@ -445,6 +448,8 @@
 				56900046292375E8007C83B8 /* DotsShaderFill.hpp */,
 				56F8FAC32946C24A0049F6CB /* WaterBleedShaderFill.cpp */,
 				56F8FAC42946C24A0049F6CB /* WaterBleedShaderFill.hpp */,
+				5611AA1629760206000EBB47 /* SlideBleedShaderFill.cpp */,
+				5611AA1729760206000EBB47 /* SlideBleedShaderFill.hpp */,
 			);
 			path = ShaderFill;
 			sourceTree = "<group>";
@@ -1000,6 +1005,7 @@
 				5692E2672956232B000F076F /* AnimationActor.cpp in Sources */,
 				560E23C82915719800C0FBE7 /* NoiseGradientShaderFill.cpp in Sources */,
 				5692E274295643C0000F076F /* TestAnimator.cpp in Sources */,
+				5611AA1829760206000EBB47 /* SlideBleedShaderFill.cpp in Sources */,
 				560E23D12915DC9600C0FBE7 /* BlobDanceAnimator.cpp in Sources */,
 				5690003B2921BD42007C83B8 /* SketchScenario.cpp in Sources */,
 				E4B69E200A3A1BDC003C02F2 /* main.cpp in Sources */,

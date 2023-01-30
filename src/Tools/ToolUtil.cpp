@@ -24,7 +24,7 @@ shared_ptr<ShaderFill> ToolUtil::getRandomShaderFill() {
     float breadth = ofRandom(1.0);
     float center = ofRandom(1.0);
     
-    float rnd = ofRandom(11.0);
+    float rnd = ofRandom(20.0);
     if (rnd < 1.0) {
         fill = shared_ptr<ShaderFill>(new NoiseGradientShaderFill(colorA, colorB, dir, ofRandom(1.0), ofRandom(1.0)));
     } else if (rnd < 2.0) {
@@ -41,8 +41,10 @@ shared_ptr<ShaderFill> ToolUtil::getRandomShaderFill() {
         fill = shared_ptr<ShaderFill>(new DotsShaderFill(colorA, colorB, dir * 4.0));
     } else if (rnd < 10.0) {
         fill = shared_ptr<ShaderFill>(new WaterBleedShaderFill(colorA, colorB, dir));
-    } else {
+    } else if (rnd < 11.0) {
         fill = shared_ptr<ShaderFill>(new MetalicGradientShaderFill(colorA, colorB, dir, ofRandom(1.0), ofRandom(1.0)));
+    } else {
+        fill = shared_ptr<ShaderFill>(new SlideBleedShaderFill(colorA, colorB, dir));
     }
     
     return fill;

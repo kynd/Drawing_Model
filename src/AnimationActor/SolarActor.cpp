@@ -154,7 +154,6 @@ void SolarActor::updateConductor(shared_ptr<ofFbo> canvas, Conductor& conductor)
                 mt->addTool(tool);
             }
             
-            
             for (int j = 0; j < entities[i]->trailLines.size(); j ++) {
             auto style = shared_ptr<StrokeStyle>(new BasicStrokeStyle(entities[i]->strokeColor));
                 auto tool = shared_ptr<Tool>(new RoundStrokeTool(mt->getLocalCanvas(), 100, style, entities[i]->trailLines[j], 4));

@@ -27,6 +27,24 @@ void StrokeTool::setupMain() {
 }
 
 void StrokeTool::activateMain() {
+}
+
+void StrokeTool::updateMain() {
+    if (!wasUpdated) {
+        firstUpdate();
+    }
+    canvas->begin();
+    style->beginPrint();
+    style->getPrintShader().setUniformTexture("original", original, 1);
+    base.draw(boundingBox.x, boundingBox.y);
+    style->endPrint();
+    canvas->end();
+    finalize();
+}
+
+void StrokeTool::firstUpdate() {
+    wasUpdated = true;
+    
     base.allocate(boundingBox.width, boundingBox.height, fboDepth, samplingDepth);
     original.allocate(boundingBox.width, boundingBox.height, fboDepth, samplingDepth);
     
@@ -45,15 +63,6 @@ void StrokeTool::activateMain() {
     base.end();
 }
 
-void StrokeTool::updateMain() {
-    canvas->begin();
-    style->beginPrint();
-    style->getPrintShader().setUniformTexture("original", original, 1);
-    base.draw(boundingBox.x, boundingBox.y);
-    style->endPrint();
-    canvas->end();
-    finalize();
-}
 
 void StrokeTool::debugDraw() {
     ofPushStyle();
