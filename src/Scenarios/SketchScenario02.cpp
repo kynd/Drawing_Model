@@ -18,7 +18,334 @@ void SketchScenario02::next() {
     canvas->end();
     
     conductor.clear();
-    orderTest();
+    //leafTest4();
+    vainTest();
+    vainTest();
+    trunksTest();
+    trunksTest();
+}
+
+void SketchScenario02::trunksTest() {
+    int LN = 4;
+    for (int kk = 0; kk < 2; kk ++) {
+        for (int k = 0; k < LN; k ++) {
+            GroupTool* gt = new GroupTool(canvas, ofRandom(10));
+            auto groupTool = shared_ptr<Tool>(gt);
+            vector<ofVec3f> center;
+            vector<ofVec3f> left, right;
+            
+            ofVec2f p = ofVec3f(ofRandom(BUFF_WIDTH), k % 2 == 0 ? 0 : BUFF_HEIGHT);
+           ofVec3f dir = ofVec3f(0, k % 2 == 0 ? 1 : -1, 0);
+            
+            if (kk == 0) {
+                p.y = k % 2 == 0 ? BUFF_HEIGHT  : 0;
+                dir.y = k % 2 == 0 ? -1 : 1;
+            }
+            float rnd = ofRandom(1.0);
+            float hm = ofRandom(0.2, 0.5);
+            float wm = hm * ofRandom(0.01, 0.2);
+            vector<vector<ofVec3f> > points = I_Leaf::trunkPoints(p, dir, BUFF_HEIGHT, BUFF_WIDTH * wm);
+            if (rnd < 0.5) {
+                vector<ofPolyline> polylines = I_Leaf::pointsToLeaf02(points[0], points[1], points[2]);
+                
+                for (int i = 0; i < polylines.size(); i ++) {
+                    ofPolyline line = polylines[i];
+                    auto tool = toolUtil.getRandomPathTool2(canvas, line, int(polylines.size()) - i);
+                    gt->addTool(tool);
+                    
+                }
+            } else {
+                vector<ofPolyline> polylines = I_Leaf::pointsToLeaf(points[0], points[1], points[2]);
+                
+                ofPolyline taper = PolyLineUtil::createTaperNtoN(1, 0.5);
+                ofFloatColor scolor = toolUtil.getRandomColor();
+                
+                for (int i = 0; i < polylines.size(); i ++) {
+                    ofPolyline line = polylines[i];
+                    if (i < 2) {
+                        auto tool = toolUtil.getRandomPathTool2(canvas, line, int(polylines.size()) - i);
+                        gt->addTool(tool);
+                    } else {
+                        
+                        float width = ofRandom(1, 6);
+                        auto style = shared_ptr<StrokeStyle>(new BasicStrokeStyle(scolor));
+                        auto tool = shared_ptr<Tool>(new BasicStrokeTool(canvas, int(polylines.size()) - i, style, line, width, taper));
+                        gt->addTool(tool);
+                    }
+                }
+            }
+            conductor.addTool(groupTool);
+        }
+    }
+}
+
+void SketchScenario02::vainTest() {
+    int LN = 4;
+    for (int k = 0; k < LN; k ++) {
+        GroupTool* gt = new GroupTool(canvas, ofRandom(10));
+        auto groupTool = shared_ptr<Tool>(gt);
+        vector<ofVec3f> center;
+        vector<ofVec3f> left, right;
+        
+        ofVec2f p = ofVec3f(ofRandom(BUFF_WIDTH), ofRandom(BUFF_HEIGHT));
+        //ofVec3f p = ofVec3f(BUFF_WIDTH / 2, ofRandom(BUFF_HEIGHT), 0);
+        ofVec3f dir = VectorUtil::randomUnitVec3();
+        //dir.y = -ofRandom(-0.1, 0.1);
+        //dir.x = ofRandom(1.0) < 0.5 ? -1 : 1;
+        
+        //ofVec2f p = ofVec3f(BUFF_WIDTH / LN * (k + 0.5), k % 2 == 0 ? 0 : BUFF_HEIGHT);
+        //ofVec3f dir = ofVec3f(0, k % 2 == 0 ? 1 : -1, 0);
+        
+        /*
+        if (kk == 0) {
+            p.y = k % 2 == 0 ? BUFF_HEIGHT * 1.33 : -BUFF_HEIGHT * 0.33;
+            dir.y = k % 2 == 0 ? -1 : 1;
+        }
+        */
+    vector<vector<ofVec3f> > points = I_Leaf::simpleLeafPoints(p, dir, BUFF_HEIGHT, BUFF_WIDTH * 0.5);
+        vector<ofPolyline> polylines = I_Leaf::pointsToLeaf(points[0], points[1], points[2]);
+        
+        ofFloatColor scolor = toolUtil.getRandomColor();
+        
+        ofPolyline taper = PolyLineUtil::createTaperNtoN(1, 0.5);
+        
+        for (int i = 2; i < polylines.size(); i ++) {
+            ofPolyline line = polylines[i];
+            
+            if (ofRandom(1.0) < 0.1) {
+                scolor = toolUtil.getRandomColor();
+            }
+            float width = ofRandom(2, 12);
+            auto style = shared_ptr<StrokeStyle>(new BasicStrokeStyle(scolor));
+            auto tool = shared_ptr<Tool>(new BasicStrokeTool(canvas, ofRandom(10), style, line, width, taper));
+            conductor.addTool(tool);
+        }
+        //conductor.addTool(groupTool);
+    }
+}
+
+void SketchScenario02::leafTest4() {
+    int LN = 8;
+    for (int kk = 0; kk < 2; kk ++) {
+        for (int k = 0; k < LN; k ++) {
+            GroupTool* gt = new GroupTool(canvas, ofRandom(10));
+            auto groupTool = shared_ptr<Tool>(gt);
+            vector<ofVec3f> center;
+            vector<ofVec3f> left, right;
+            
+            ofVec2f p = ofVec3f(ofRandom(BUFF_WIDTH), ofRandom(BUFF_HEIGHT));
+            //ofVec3f p = ofVec3f(BUFF_WIDTH / 2, ofRandom(BUFF_HEIGHT), 0);
+            ofVec3f dir = VectorUtil::randomUnitVec3();
+            //dir.y = -ofRandom(-0.1, 0.1);
+            //dir.x = ofRandom(1.0) < 0.5 ? -1 : 1;
+            
+            //ofVec2f p = ofVec3f(BUFF_WIDTH / LN * (k + 0.5), k % 2 == 0 ? 0 : BUFF_HEIGHT);
+            //ofVec3f dir = ofVec3f(0, k % 2 == 0 ? 1 : -1, 0);
+            
+            /*
+            if (kk == 0) {
+                p.y = k % 2 == 0 ? BUFF_HEIGHT * 1.33 : -BUFF_HEIGHT * 0.33;
+                dir.y = k % 2 == 0 ? -1 : 1;
+            }
+            */
+            float rnd = ofRandom(1.0);
+            float hm = ofRandom(0.2, 0.5);
+            float wm = hm * ofRandom(0.2, 0.5);
+            vector<vector<ofVec3f> > points = I_Leaf::simpleLeafPoints(p, dir, BUFF_HEIGHT * hm, BUFF_WIDTH * wm);
+            if (rnd < 0.5) {
+                vector<ofPolyline> polylines = I_Leaf::pointsToLeaf02(points[0], points[1], points[2]);
+                
+                for (int i = 0; i < polylines.size(); i ++) {
+                    ofPolyline line = polylines[i];
+                    auto tool = toolUtil.getRandomPathTool2(canvas, line, int(polylines.size()) - i);
+                    gt->addTool(tool);
+                    
+                }
+            } else {
+                vector<ofPolyline> polylines = I_Leaf::pointsToLeaf(points[0], points[1], points[2]);
+                
+                ofPolyline taper = PolyLineUtil::createTaperNtoN(1, 0.5);
+                ofFloatColor scolor = toolUtil.getRandomColor();
+                
+                for (int i = 0; i < polylines.size(); i ++) {
+                    ofPolyline line = polylines[i];
+                    if (i < 2) {
+                        auto tool = toolUtil.getRandomPathTool2(canvas, line, int(polylines.size()) - i);
+                        gt->addTool(tool);
+                    } else {
+                        
+                        float width = ofRandom(1, 6);
+                        auto style = shared_ptr<StrokeStyle>(new BasicStrokeStyle(scolor));
+                        auto tool = shared_ptr<Tool>(new BasicStrokeTool(canvas, int(polylines.size()) - i, style, line, width, taper));
+                        gt->addTool(tool);
+                    }
+                }
+            }
+            conductor.addTool(groupTool);
+        }
+    }
+}
+
+void SketchScenario02::leafTest3() {
+    for (int k = 0; k < 8; k ++) {
+        GroupTool* gt = new GroupTool(canvas, ofRandom(10));
+        auto groupTool = shared_ptr<Tool>(gt);
+        vector<ofVec3f> center;
+        vector<ofVec3f> left, right;
+        
+        ofVec2f p = ofVec3f(ofRandom(BUFF_WIDTH), ofRandom(BUFF_HEIGHT));
+        ofVec3f dir = ofVec3f(0, 1, 0);//VectorUtil::randomUnitVec3();
+        
+        vector<vector<ofVec3f> > points = I_Leaf::simpleLeafPoints(p, dir, BUFF_HEIGHT, BUFF_WIDTH * 0.25);
+        vector<ofPolyline> polylines = I_Leaf::pointsToLeaf02(points[0], points[1], points[2]);
+        
+        for (int i = 0; i < polylines.size(); i ++) {
+            ofPolyline line = polylines[i];
+            auto tool = toolUtil.getRandomPathTool2(canvas, line, int(polylines.size()) - i);
+            conductor.addTool(tool);
+            
+        }
+        //conductor.addTool(groupTool);
+    }
+}
+
+
+void SketchScenario02::leafTest2() {
+    int LN = 8;
+    for (int kk = 0; kk < 2; kk ++) {
+        for (int k = 0; k < LN; k ++) {
+            GroupTool* gt = new GroupTool(canvas, ofRandom(10));
+            auto groupTool = shared_ptr<Tool>(gt);
+            vector<ofVec3f> center;
+            vector<ofVec3f> left, right;
+            
+            ofVec2f p = ofVec3f(BUFF_WIDTH / LN * (k + 0.5), k % 2 == 0 ? 0 : BUFF_HEIGHT);
+            ofVec3f dir = ofVec3f(0, k % 2 == 0 ? 1 : -1, 0);
+            
+            if (kk == 0) {
+                p.y = k % 2 == 0 ? BUFF_HEIGHT * 1.33 : -BUFF_HEIGHT * 0.33;
+                dir.y = k % 2 == 0 ? -1 : 1;
+            }
+            
+            ofVec3f sDir = ofVec3f(1, 0, 0);
+            float seed = ofRandom(1000.0);
+            float pw = ofRandom(0.5, 3.0);
+            float size = BUFF_HEIGHT * 0.66;
+            int iN = 50;
+            float ns = ofRandom(0.01, 1.0);
+            float nAmt = ofRandom(0.01, 0.2);
+            
+            for (int i = 0; i < iN; i ++) {
+                center.push_back(p);
+                float sLen = pow(sin(float(i) / (iN - 1) * PI), pw);
+                sLen *= 1.0 + ofSignedNoise(seed + i * ns) * nAmt;
+                ofVec3f lp = p + sDir * sLen * BUFF_WIDTH / LN * 0.75;
+                ofVec3f rp = p - sDir * sLen * BUFF_WIDTH / LN * 0.75;
+                left.push_back(lp);
+                right.push_back(rp);
+                ofDrawCircle(p, 2);
+                ofDrawCircle(rp, 2);
+                ofDrawCircle(lp, 2);
+                
+                p += dir * size / (iN - 1);
+                dir += VectorUtil::noiseVec3(seed + i * 0.3) * 0.1;
+                dir.normalize();
+                float sLot = ofSignedNoise(seed + i * 0.2 + 9.87654);
+                sDir.rotate(sLot * 15.0, dir);
+                
+            }
+            vector<ofPolyline> polylines = Illustrator::pointsToLeaf(center, left, right);
+            
+            
+            ofPolyline taper = PolyLineUtil::createTaperNtoN(1, 0.5);
+            ofFloatColor scolor = toolUtil.getRandomColor();
+            
+            for (int i = 0; i < polylines.size(); i ++) {
+                ofPolyline line = polylines[i];
+                if (i < 2) {
+                    auto tool = toolUtil.getRandomPathTool2(canvas, line, int(polylines.size()) - i);
+                    gt->addTool(tool);
+                } else {
+                    
+                    float width = ofRandom(1, 6);
+                    auto style = shared_ptr<StrokeStyle>(new BasicStrokeStyle(scolor));
+                    auto tool = shared_ptr<Tool>(new BasicStrokeTool(canvas, int(polylines.size()) - i, style, line, width, taper));
+                    gt->addTool(tool);
+                }
+            }
+            conductor.addTool(groupTool);
+        }
+    }
+}
+
+
+void SketchScenario02::leafTest() {
+    for (int k = 0; k < 8; k ++) {
+        GroupTool* gt = new GroupTool(canvas, ofRandom(10));
+        auto groupTool = shared_ptr<Tool>(gt);
+        vector<ofVec3f> center;
+        vector<ofVec3f> left, right;
+        
+        ofVec2f p = ofVec3f(ofRandom(BUFF_WIDTH), ofRandom(BUFF_HEIGHT));
+        ofVec3f dir = ofVec3f(0, 1, 0);//;
+        ofVec3f sDir = VectorUtil::randomUnitVec3().cross(dir);
+        float seed = ofRandom(1000.0);
+        float pw = ofRandom(0.2, 2.0);
+        float size = ofRandom(250, 750) * 2;
+        for (int i = 0; i < 10; i ++) {
+            center.push_back(p);
+            float sLen = pow(sin(float(i) / 9 * PI), pw);
+            ofVec3f lp = p + sDir * sLen * size;
+            ofVec3f rp = p - sDir * sLen * size;
+            left.push_back(lp);
+            right.push_back(rp);
+            ofDrawCircle(p, 2);
+            ofDrawCircle(rp, 2);
+            ofDrawCircle(lp, 2);
+            
+            p += dir * size / 3;
+            dir += VectorUtil::noiseVec3(seed + i * 0.3);
+            dir.normalize();
+            float sLot = ofSignedNoise(seed + i * 0.2 + 9.87654);
+            sDir.rotate(sLot * 5.0, dir);
+            
+        }
+        vector<ofPolyline> polylines = Illustrator::pointsToLeaf(center, left, right);
+        
+        
+        ofPolyline taper = PolyLineUtil::createTaperNtoN(1, 0.5);
+        ofFloatColor scolor = toolUtil.getRandomColor();
+        
+        for (int i = 0; i < polylines.size(); i ++) {
+            ofPolyline line = polylines[i];
+            if (i < 2) {
+                auto tool = toolUtil.getRandomPathTool2(canvas, line, int(polylines.size()) - i);
+                gt->addTool(tool);
+            } else {
+                
+                float width = ofRandom(1, 6);
+                auto style = shared_ptr<StrokeStyle>(new BasicStrokeStyle(scolor));
+                auto tool = shared_ptr<Tool>(new BasicStrokeTool(canvas, int(polylines.size()) - i, style, line, width, taper));
+                gt->addTool(tool);
+            }
+        }
+        conductor.addTool(groupTool);
+    }
+}
+
+void SketchScenario02::curtainTest() {
+    int xDiv = 48, yDiv = 48;
+    ofVec2f p0 = ofVec2f(ofRandom(0.2), ofRandom(0.2)) * ofVec2f(BUFF_WIDTH, BUFF_HEIGHT);
+    ofVec2f p1 = ofVec2f(ofRandom(0.8, 1.0), ofRandom(0.2)) * ofVec2f(BUFF_WIDTH, BUFF_HEIGHT);
+    ofVec2f p2 = ofVec2f(ofRandom(0.2), ofRandom(0.8, 1.0)) * ofVec2f(BUFF_WIDTH, BUFF_HEIGHT);
+    ofVec2f p3 = ofVec2f(ofRandom(0.8, 1.0), ofRandom(0.8, 1.0)) * ofVec2f(BUFF_WIDTH, BUFF_HEIGHT);
+    
+    for (int ix = 0; ix < xDiv; ix ++) {
+        for (int ix = 0; ix < xDiv; ix ++) {
+            
+            
+        }
+    }
 }
 
 void SketchScenario02::orderTest() {

@@ -291,9 +291,11 @@ ofMesh PolyLineUtil::toRoundStrokeMesh(ofPolyline line, float width, int resolut
 ofPath PolyLineUtil::polylineToPath(ofPolyline line) {
     auto v = line.getVertices();
     ofPath path;
-    path.moveTo(v[0]);
-    for (int i = 0; i <= v.size(); i ++) {
-        path.lineTo(v[i % v.size()]);
+    if (v.size() > 0) {
+        path.moveTo(v[0]);
+        for (int i = 0; i <= v.size(); i ++) {
+            path.lineTo(v[i % v.size()]);
+        }
     }
     path.close();
     return path;

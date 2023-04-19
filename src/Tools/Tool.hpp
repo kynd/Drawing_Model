@@ -26,7 +26,7 @@ public:
     virtual void debugDraw();
     bool isMultiStep();
 protected:
-    int multiStep = false;
+    bool multiStep = false;
     States state = STANDBY;
     shared_ptr<ofFbo> canvas;
     ofRectangle boundingBox;

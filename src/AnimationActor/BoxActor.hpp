@@ -18,7 +18,7 @@ public:
     
     int frameCount = 0;
     int moveLen = 30;
-    float rot, pRot, tRot, iRot;
+    float rot, pRot, tRot, iRot, z;
     ofVec3f center, size, pCenter, pSize, tCenter, tSize, iCenter, iSize;
     ofVec3f axis;
     vector<ofPolyline> edgeLines;

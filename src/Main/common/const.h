@@ -11,4 +11,4 @@ const bool animationDebugFlag = false;
 
 const int fboDepth = GL_RGBA16F;
 const int samplingDepth = 1;
-const string COMMON_COLOR_SOURCE = "img/21.jpeg";
+const string COMMON_COLOR_SOURCE = "img/27.png";

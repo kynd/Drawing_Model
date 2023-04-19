@@ -37,6 +37,9 @@ void GroupTool::debugDraw() {
 }
 
 void GroupTool::addTool(shared_ptr<Tool> tool) {
+    if (tool->isMultiStep()) {
+        multiStep = true;
+    }
     if (boundingBox.width == 0 && boundingBox.height == 0) {
         boundingBox = tool->getBoundingBox();
     } else {

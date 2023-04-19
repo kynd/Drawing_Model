@@ -2,11 +2,10 @@
 
 
 AnimationScenario::AnimationScenario() {
-    colorSampler.load("img/26.jpg");
     
     canvas = shared_ptr<ofFbo>(new ofFbo());
     canvas->allocate(BUFF_WIDTH, BUFF_HEIGHT, fboDepth, samplingDepth);
-    backgroungColor = colorSampler.getRandomColor();
+    backgroungColor = toolUtil.getRandomColor(); //ofFloatColor(0,0,0,1);//
     clearBackground();
     
     

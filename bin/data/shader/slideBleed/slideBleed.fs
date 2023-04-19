@@ -38,7 +38,7 @@ void main() {
     float t = dot(uv, normalize(perpDir)) + 0.5;
 
 
-    vec4 mixedColor = mix(colorA, colorB, t);
+    vec4 mixedColor = mix(colorA, colorB, smoothstep(0.25, 0.75, t));
     vec2 offCoord = crd;
     float d = 1.0;
     for (int i = 0; i < 8; i ++) {
@@ -46,7 +46,7 @@ void main() {
         d *= 1.5;
         vec4 offBaseSamp = texture(base, constrainCoord(offCoord));
         vec4 prevBleedSamp = texture(prev, constrainCoord(offCoord));
-        mixedColor = mix(mixedColor, prevBleedSamp, 0.4 * offBaseSamp.a);
+        mixedColor = mix(mixedColor, prevBleedSamp, 0.9 * offBaseSamp.a);
     }
 
     vec4 outCol = mix(originalSamp, mixedColor, baseSamp.a);

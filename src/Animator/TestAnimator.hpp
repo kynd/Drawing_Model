@@ -6,6 +6,12 @@
 #include "WaveTideActor.hpp"
 #include "BoxActor.hpp"
 #include "SolarActor.hpp"
+#include "DrapeActor.hpp"
+#include "CandyClashActor.hpp"
+#include "SquishyActor.hpp"
+#include "TreeActor.hpp"
+
+
 
 class TestAnimator : public Animator {
 public:
@@ -14,5 +20,9 @@ public:
     vector<ShapeMorphActor> shapeMorphActors;
     BoxActor boxActor;
     vector<SolarActor> solarActors;
+    CandyClashActor candyClashActor;
+    DrapeActor drapeActor;
+    SquishyActor squishyActor;
+    TreeActor treeActor;
     int nShapes = 4;
 };

@@ -1,8 +1,6 @@
 #include "Illustrator.hpp"
 
 
-
-
 vector<ofPolyline> Illustrator::eclipse(ofRectangle rect, float angle) {
     angle = fmod(angle, TWO_PI);
     vector<ofPolyline> polylines;
@@ -503,4 +501,9 @@ ofRectangle Illustrator::randomRect(float minW, float minH, float maxW, float ma
     float x = ofRandom(0, BUFF_WIDTH - w);
     float y = ofRandom(0, BUFF_HEIGHT - h);
     return ofRectangle(x, y, w, h);
+}
+
+vector<ofPolyline> Illustrator::pointsToLeaf(vector<ofVec3f> center, vector<ofVec3f> left, vector<ofVec3f> right) {
+    
+    return I_Leaf::pointsToLeaf(center, left, right);
 }

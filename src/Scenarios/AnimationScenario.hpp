@@ -12,6 +12,7 @@
 #include "TestAnimator.hpp"
 
 
+
 class AnimationScenario : public Scenario {
 public:
     AnimationScenario();
@@ -22,5 +23,6 @@ public:
     TestAnimator animater;
     ofFloatColor backgroungColor;
     int nImage = 0;
+    ToolUtil toolUtil;
 };
 

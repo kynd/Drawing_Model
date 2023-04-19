@@ -3,6 +3,7 @@
 #include "const.h"
 #include "ofMain.h"
 #include "PolylineUtil.hpp"
+#include "I_Leaf.hpp"
 
 
 class Illustrator {
@@ -32,4 +33,6 @@ public:
     static vector<ofRectangle> createRandomGrid(int nh, int nv);
     static vector<ofRectangle> createRandomSquareGrid(int n);
     static ofRectangle randomRect(float minW, float minH, float maxW, float maxH);
+    
+    static vector<ofPolyline> pointsToLeaf(vector<ofVec3f> center, vector<ofVec3f> left, vector<ofVec3f> right);
 };

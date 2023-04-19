@@ -7,6 +7,7 @@ BoxDef::BoxDef() {
     pCenter = tCenter = iCenter = center;
     pSize = tSize = iSize = size;
     pRot = tRot = iRot = rot;
+    z = ofRandom(10.0);
     
     float rnd = ofRandom(2.0);
     if (rnd < 1.0) {
@@ -47,7 +48,7 @@ BoxDef::BoxDef() {
     strokeColor = toolUtil.getRandomColor();
     baseSpan = ofRandom(8, 16);
     span = ofRandom(baseSpan *0.5, baseSpan);
-    lineWidth = ofRandom(1, span * 0.5);
+    lineWidth = ofRandom(1, span);
     moveLen = int(ofRandom(1, 4)) * 30;
     
 }
@@ -198,7 +199,7 @@ void BoxActor::updateConductor(shared_ptr<ofFbo> canvas, Conductor& conductor) {
             }
         }
         for (int i = 0; i < boxes[bi].faceLines.size(); i ++) {
-            auto tool = shared_ptr<Tool>(new ShaderFillTool(canvas, 1, boxes[bi].fills[i], boxes[bi].faceLines[i]));
+            auto tool = shared_ptr<Tool>(new ShaderFillTool(canvas, boxes[bi].z, boxes[bi].fills[i], boxes[bi].faceLines[i]));
             
             conductor.addTool(tool);
         }

@@ -11,6 +11,13 @@ public:
     virtual void next();
     virtual void draw();
     
+    virtual void trunksTest();
+    virtual void vainTest();
+    virtual void leafTest4();
+    virtual void leafTest3();
+    virtual void leafTest2();
+    virtual void leafTest();
+    virtual void curtainTest();
     virtual void orderTest();
     virtual void starTest();
     virtual void treeTest();
@@ -23,6 +30,7 @@ public:
     virtual void lineTestSpecific();
     virtual void maskTest();
     virtual void groupTest();
+    
     
     ShapeMorphActor shapeMorphActor;
     BoxActor boxActor;

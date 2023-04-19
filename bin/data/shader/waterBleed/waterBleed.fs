@@ -36,7 +36,7 @@ void main() {
     //vec4 blurSamp = texture(blur, crd);
 
     vec4 offBlurSamp = texture(blur, crd + noiseSamp.xy * 8.0);
-    vec4 offBaseSamp = texture(base, crd + noiseSamp.xy * 2.0);
+    vec4 offBaseSamp = texture(base, crd);
     vec2 offCoord = crd + noiseSamp.xy * 4.0 * offBlurSamp.a;
     vec4 prevBleedSamp = texture(prev, constrainCoord(offCoord));
 

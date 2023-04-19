@@ -9,9 +9,10 @@
 #include "AnimationScenario.hpp"
 #include "StepScenario.hpp"
 #include "VideoSaver.hpp"
-#include "OrbitActor.hpp"
-#include "BoxActor.hpp"
-#include "SolarActor.hpp"
+
+#include "I_Leaf.hpp"
+#include "I_Tree.hpp"
+#include "TreeActor.hpp"
 
 class ofApp : public ofBaseApp{
 
@@ -32,12 +33,16 @@ class ofApp : public ofBaseApp{
 		void dragEvent(ofDragInfo dragInfo);
 		void gotMessage(ofMessage msg);
     
-    AnimationScenario runner;
+    //AnimationScenario runner;
     //SketchScenario runner;
-    //SketchScenario02 runner;
+    SketchScenario02 runner;
     //StepScenario runner;
     //shapeMorphActor runner;
     //BoxActor runner;
     //SolarActor runner;
+    //DrapeActor runner;
+    //CandyClashActor runner;
+    //SquishyActor runner;
+    //TreeActor runner;
     VideoSaver vs;
 };

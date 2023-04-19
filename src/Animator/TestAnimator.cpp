@@ -3,7 +3,7 @@
 void TestAnimator::init(shared_ptr<ofFbo> _canvas) {
     canvas = _canvas;
     
-    
+    /*
     for (int i = -1; i <=1; i += 2) {
         for (int j = -1; j <=1; j += 2) {
             solarActors.push_back(SolarActor());
@@ -14,23 +14,26 @@ void TestAnimator::init(shared_ptr<ofFbo> _canvas) {
                 ofVec2f(0.66));
         }
     }
+     */
     /*
     for (int i = 0; i < nShapes; i ++) {
         shapeMorphActors.push_back(ShapeMorphActor());
     }
     */
-        //solarActors.push_back(SolarActor());
+    //solarActors.push_back(SolarActor());
+    
     
 }
 
 void TestAnimator::update(Conductor& conductor) {
     conductor.clear();
     
-    
+    /*
     for (int i = 0; i < solarActors.size(); i ++) {
         solarActors[i].update();
         solarActors[i].updateConductor(canvas, conductor);
     }
+     */
     /*
     boxActor.updateConductor(canvas, conductor);
     for (int i = 0; i < nShapes; i ++) {
@@ -39,6 +42,15 @@ void TestAnimator::update(Conductor& conductor) {
         conductor.getLastTool()->setPriority(i);
     }
     */
+    /*
     boxActor.update();
     boxActor.updateConductor(canvas, conductor);
+    
+    drapeActor.update();
+    drapeActor.updateConductor(canvas, conductor);
+    */
+    //candyClashActor.update();
+    //candyClashActor.updateConductor(canvas, conductor);
+    treeActor.update();
+    treeActor.updateConductor(canvas, conductor);
 }

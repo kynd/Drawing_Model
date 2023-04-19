@@ -18,6 +18,14 @@ ofVec3f VectorUtil::randomVec3(float maxLength) {
 }
 
 
+ofVec3f VectorUtil::noiseVec3(float seed) {
+    float x = ofSignedNoise(seed + 123.4567890);
+    float y = ofSignedNoise(seed + 234.5678901);
+    float z = ofSignedNoise(seed + 345.6789012);
+    return ofVec3f(x, y, z);
+}
+
+
 
 ofVec4f VectorUtil::toV4(ofVec3f v) {
     return ofVec4f(v.x, v.y, v.z, 1.0);

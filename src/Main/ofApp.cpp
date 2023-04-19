@@ -10,7 +10,6 @@ void ofApp::setup(){
     //ofSetFrameRate(2);
     ofSetCircleResolution(256);
     
-    //runner.setPosition(ofVec2f(BUFF_WIDTH / 4, BUFF_HEIGHT / 4), ofVec2f(0.5));
 }
 
 //--------------------------------------------------------------
@@ -20,17 +19,39 @@ void ofApp::update(){
 
 //--------------------------------------------------------------
 void ofApp::draw(){
+    
     runner.draw();
     
+    /*
+    for (int k = 0; k < 8; k ++) {
+        vector<ofVec3f> center;
+        vector<ofVec3f> left, right;
+        
+        ofVec2f p = ofVec3f(ofRandom(BUFF_WIDTH), ofRandom(BUFF_HEIGHT));
+        ofVec3f dir = VectorUtil::randomUnitVec3();
+        
+        vector<vector<ofVec3f> > points = I_Leaf::trunkPoints(p, dir, BUFF_HEIGHT, BUFF_WIDTH * 0.25);
+        vector<ofPolyline> polylines = I_Leaf::pointsToLeaf02(points[0], points[1], points[2]);
+        
+        for (int i = 0; i < polylines.size(); i ++) {
+            ofPolyline line = polylines[i];
+            line.draw();
+            
+        }
+    }
+    */
+    
+    /*
     if (debugFPSFlag) {
         ofPushStyle();
         ofSetColor(0, 0, 0, 255);
         ofDrawBitmapString(ofToString(ofGetFrameRate()), 40, 40);
         ofPopStyle();
     }
-    
-    
-    //vs.save();
+     */
+    if(ofGetFrameNum() % 5 == 0) {
+        vs.save();
+    }
 }
 
 //--------------------------------------------------------------
